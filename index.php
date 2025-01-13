@@ -106,17 +106,17 @@
                                         <li class="dropdown current">
                                             <a href="index.php">Home</a>
                                         </li>
-                                        <li><a href="about.php">About</a></li>
+                                        <li><a href="./visiteur/about.php">About</a></li>
                                         <li class="dropdown">
-                                            <a href="courses.php">Courses</a>
+                                            <a href="./visiteur/courses.php">Courses</a>
                                         </li>
                                         <li class="dropdown">
-                                            <a href="teachers-1.php"> Teachers</a>
+                                            <a href="./visiteur/teachers-1.php"> Teachers</a>
                                         </li>
                                         <li class="dropdown">
-                                            <a href="news.php">News</a>
+                                            <a href="./visiteur/news.php">News</a>
                                         </li>
-                                        <li><a href="contact.php">Contact</a></li>
+                                        <li><a href="./visiteur/contact.php">Contact</a></li>
                                     </ul>
                                 </div>
 
@@ -124,8 +124,8 @@
                                     <div class="main-menu__right">
                                         <div class="main-menu__right-login-register">
                                             <ul class="list-unstyled">
-                                                <li><a href="#">Login</a></li>
-                                                <li><a href="#">Register</a></li>
+                                                <li><a href="./visiteur/login.php">Login</a></li>
+                                                <li><a href="./visiteur/register.php">Register</a></li>
                                             </ul>
                                         </div>
                                         <div class="main-menu__right-cart-search">
@@ -204,7 +204,7 @@
                                     <a href="#" class="thm-btn">Discover more</a>
                                 </div>
                                 <div class="main-slider-one__img">
-                                    <img src="assets/images/backgrounds/main-slider-v1-img.png" alt="" />
+                                    <img src="assets/images/backgrounds/main-slider-v2-1.jpg" alt="" />
                                 </div>
                             </div>
                         </div>
@@ -244,7 +244,7 @@
                                     <a href="#" class="thm-btn">Discover more</a>
                                 </div>
                                 <div class="main-slider-one__img">
-                                    <img src="assets/images/backgrounds/main-slider-v1-img.png" alt="" />
+                                    <img src="assets/images/backgrounds/main-slider-v1-img.jpg" alt="" />
                                 </div>
                             </div>
                         </div>
@@ -375,12 +375,12 @@
                             <ul class="about-one__left-img-box list-unstyled clearfix">
                                 <li class="about-one__left-single">
                                     <div class="about-one__left-img1">
-                                        <img src="assets/images/about/about-v1-img1.jpg" alt="" />
+                                        <img src="assets/images/about/about-v1-img2.jpeg" alt="" />
                                     </div>
                                 </li>
                                 <li class="about-one__left-single">
                                     <div class="about-one__left-img2">
-                                        <img src="assets/images/about/about-v1-img2.jpg" alt="" />
+                                        <img src="assets/images/about/about-v2-img2.jpg" alt="" />
                                     </div>
                                 </li>
                             </ul>
@@ -401,7 +401,7 @@
                     <div class="col-xl-6">
                         <div class="about-one__right">
                             <div class="section-title">
-                                <span class="section-title__tagline">About Zilom Company</span>
+                                <span class="section-title__tagline">About YouCode Company</span>
                                 <h2 class="section-title__title">Welcome to the Online <br>Learning Center</h2>
                             </div>
                             <div class="about-one__right-inner">
@@ -438,7 +438,7 @@
                                 </ul>
 
                                 <div class="about-one__btn">
-                                    <a href="about.php" class="thm-btn">view all courses</a>
+                                    <a href="./visiteur/about.php" class="thm-btn">view all courses</a>
                                 </div>
                             </div>
                         </div>
@@ -472,7 +472,7 @@
                                     <img src="assets/images/resources/courses-v1-overlay-img1.png" alt="" />
                                 </div>
                                 <h6 class="courses-one__single-content-name">Kevin Martin</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
+                                <h4 class="courses-one__single-content-title"><a href="./visiteur/course-details.php">Become a
                                         React Developer</a></h4>
                                 <div class="courses-one__single-content-review-box">
                                     <ul class="list-unstyled">
@@ -512,7 +512,7 @@
                                     <img src="assets/images/resources/courses-v1-overlay-img2.png" alt="" />
                                 </div>
                                 <h6 class="courses-one__single-content-name">Christine Eve</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
+                                <h4 class="courses-one__single-content-title"><a href="./visiteur/course-details.php">Become a
                                         React Developer</a></h4>
                                 <div class="courses-one__single-content-review-box">
                                     <ul class="list-unstyled">
@@ -552,7 +552,7 @@
                                     <img src="assets/images/resources/courses-v1-overlay-img3.png" alt="" />
                                 </div>
                                 <h6 class="courses-one__single-content-name">David Cooper</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
+                                <h4 class="courses-one__single-content-title"><a href="./visiteur/course-details.php">Become a
                                         React Developer</a></h4>
                                 <div class="courses-one__single-content-review-box">
                                     <ul class="list-unstyled">
@@ -589,7 +589,7 @@
                                     <img src="assets/images/resources/courses-v1-overlay-img4.png" alt="" />
                                 </div>
                                 <h6 class="courses-one__single-content-name">Sarah Albert</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
+                                <h4 class="courses-one__single-content-title"><a href="./visiteur/course-details.php">Become a
                                         React Developer</a></h4>
                                 <div class="courses-one__single-content-review-box">
                                     <ul class="list-unstyled">
@@ -770,77 +770,6 @@
             </div>
         </section>
         <!--Courses One End-->
-
-
-
-        <!--Registration One Start-->
-        <section class="registration-one jarallax" data-jarallax data-speed="0.2" data-imgPosition="50% 0%">
-            <div class="registration-one__bg"
-                style="background-image: url(assets/images/resources/registration-one-bg.jpg);"></div>
-            <div class="container">
-                <div class="row">
-                    <!--Start Registration One Left-->
-                    <div class="col-xl-7 col-lg-7">
-                        <div class="registration-one__left">
-                            <div class="section-title">
-                                <span class="section-title__tagline">Get Free Registration</span>
-                                <h2 class="section-title__title">Register your Account<br> Get free Access to <span
-                                        class="odometer" data-count="66000">00</span> <br>Online Courses</h2>
-                            </div>
-                            <p class="registration-one__left-text">There are many variations of passages of lorem ipsum
-                                available but the majority have suffered alteration in some form.</p>
-                            <div class="registration-one__left-transform-box">
-                                <div class="registration-one__left-transform-box-icon">
-                                    <span class="icon-online-course"></span>
-                                </div>
-                                <div class="registration-one__left-transform-box-text">
-                                    <h3><a href="#">Transform Access To Education</a></h3>
-                                    <p>Discover creative projects limited editions of 100 <br>from artists, designers,
-                                        and more.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Registration One Left-->
-
-                    <!--Start Registration One Right-->
-                    <div class="col-xl-5 col-lg-5">
-                        <div class="registration-one__right wow slideInRight" data-wow-delay="100ms"
-                            data-wow-duration="2500ms">
-                            <div class="registration-one__right-form">
-                                <div class="title-box">
-                                    <h4>Fill your Registration</h4>
-                                </div>
-                                <div class="form-box">
-                                    <form method="post" action="index.php">
-                                        <div class="form-group">
-                                            <input type="text" name="username" placeholder="Your Name" required="">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="email" name="email" placeholder="Email Address" required="">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="phone" placeholder="Phone" required="">
-                                        </div>
-                                        <div class="form-group">
-                                            <textarea placeholder="Comment"></textarea>
-                                        </div>
-                                        <button class="registration-one__right-form-btn" type="submit"
-                                            name="submit-form">
-                                            <span class="thm-btn">apply for it</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Registration One Right-->
-                </div>
-            </div>
-        </section>
-        <!--Registration One End-->
-
-
         <!--Categories One Start-->
         <section class="categories-one">
             <div class="container">
@@ -1150,34 +1079,34 @@
             }}'>
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo1.png" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo2.jpg" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo3.png" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo4.svg" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo5.jpg" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo6.jpg" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo7.png" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo1.png" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo1.png" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo1.png" alt="">
                         </div><!-- /.swiper-slide -->
                     </div>
                 </div>
@@ -1247,7 +1176,7 @@
                         <div class="why-choose-one__right wow slideInRight animated clearfix" data-wow-delay="0ms"
                             data-wow-duration="1500ms">
                             <div class="why-choose-one__right-img clearfix">
-                                <img src="assets/images/resources/why-choose-v1-img.jpg" alt="" />
+                                <img src="assets/images/resources/assets/images/resources/why-choose-v1-img.jpg" alt="" />
                                 <div class="why-choose-one__right-img-overlay">
                                     <p>We’re the best institution</p>
                                 </div>
@@ -1285,7 +1214,7 @@
                                         <li><a href="#"><span class="icon-chat"></span> Comments</a></li>
                                     </ul>
                                 </div>
-                                <h2 class="blog-one__single-content-title"><a href="news-details.php">Helping Answers
+                                <h2 class="blog-one__single-content-title"><a href="./visiteur/news-details.php">Helping Answers
                                         Stand out in Discussions</a></h2>
                                 <p class="blog-one__single-content-text">Lorem ipsum is simply free text on used by
                                     copytyping refreshing the whole area.</p>
@@ -1308,7 +1237,7 @@
                                         <li><a href="#"><span class="icon-chat"></span> Comments</a></li>
                                     </ul>
                                 </div>
-                                <h2 class="blog-one__single-content-title"><a href="news-details.php">Helping Answers
+                                <h2 class="blog-one__single-content-title"><a href="./visiteur/news-details.php">Helping Answers
                                         Stand out in Discussions</a></h2>
                                 <p class="blog-one__single-content-text">Lorem ipsum is simply free text on used by
                                     copytyping refreshing the whole area.</p>
@@ -1331,7 +1260,7 @@
                                         <li><a href="#"><span class="icon-chat"></span> Comments</a></li>
                                     </ul>
                                 </div>
-                                <h2 class="blog-one__single-content-title"><a href="news-details.php">Helping Answers
+                                <h2 class="blog-one__single-content-title"><a href="./visiteur/news-details.php">Helping Answers
                                         Stand out in Discussions</a></h2>
                                 <p class="blog-one__single-content-text">Lorem ipsum is simply free text on used by
                                     copytyping refreshing the whole area.</p>
@@ -1390,7 +1319,7 @@
 
         <!--Start Footer One-->
         <footer class="footer-one">
-            <div class="footer-one__bg" style="background-image: url(assets/images/backgrounds/footer-v1-bg.jpg);">
+            <div class="footer-one__bg" style="background-image: url(assets/images/backgrounds/footer.jpg);">
             </div><!-- /.footer-one__bg -->
             <div class="footer-one__top">
                 <div class="container">
@@ -1425,11 +1354,11 @@
                             <div class="footer-widget__column footer-widget__links">
                                 <h3 class="footer-widget__title">Links</h3>
                                 <ul class="footer-widget__links-list list-unstyled">
-                                    <li><a href="about.php">About Us</a></li>
+                                    <li><a href="./visiteur/about.php">About Us</a></li>
                                     <li><a href="#">Overview</a></li>
-                                    <li><a href="teachers-1.php">Teachers</a></li>
+                                    <li><a href="./visiteur/teachers-1.php">Teachers</a></li>
                                     <li><a href="#">Join Us</a></li>
-                                    <li><a href="news.php">Our News</a></li>
+                                    <li><a href="./visiteur/news.php">Our News</a></li>
                                 </ul>
                             </div>
                         </div>
