@@ -12,14 +12,12 @@ class Admin extends User {
             $pdo = DatabaseConnection::getInstance()->getConnection();
             $query = "
             SELECT 
-                (SELECT COUNT(*) FROM users where idRole = 2) AS total_enseignant,
-                (SELECT COUNT(*) FROM users where idRole = 3) AS total_etudient,
-                (SELECT COUNT(*) FROM Vehicle) AS total_vehicles,
-                (SELECT COUNT(*) FROM Reservation) AS total_reservations,
-                (SELECT COUNT(*) FROM Reservation WHERE status = 'pending') AS total_res_pen,
-                (SELECT COUNT(*) FROM Reservation WHERE status = 'accepted') AS total_res_acc,
-                (SELECT COUNT(*) FROM Reservation WHERE status = 'rejected') AS total_res_ref
+                (SELECT COUNT(*) FROM users WHERE idRole = 2) AS total_enseignant,
+                (SELECT COUNT(*) FROM users WHERE idRole = 3) AS total_etudient,
+                (SELECT COUNT(*) FROM cours) AS total_cours,
+                (SELECT COUNT(*) FROM users WHERE status = 'activie') AS total_users_activie
         ";
+        
         
             $stmt = $pdo->query($query);
     
@@ -29,12 +27,10 @@ class Admin extends User {
                 return $result;
             } else {
                 return [
-                    'total_users' => 0,
-                    'total_vehicles' => 0,
-                    'total_reservations' => 0,
-                    'total_res_pen' => 0,
-                    'total_res_acc' => 0,
-                    'total_res_ref' => 0,
+                    'total_enseignant' => 0,
+                    'total_etudient' => 0,
+                    'total_cours' => 0,
+                    'total_users_activie' => 0,
                 ];
             }
         } catch (\PDOException $e) {

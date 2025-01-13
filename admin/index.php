@@ -1,23 +1,23 @@
 <?php
 
-// require_once '../autoload.php'; 
-// use Classes\Admin;
-// use Classes\Reservation;
-// session_start();
+require_once '../autoload.php'; 
+use Classes\Admin;
+use Classes\Reservation;
+session_start();
 
 // if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
-//     header("Location: ../index.html");
+//     header("Location: ../index.php");
 //     exit;
 // }
 
 
-// try {
-//        $admin = new Admin(1, "charaf", "charafeddinetbibzat@gmail.com", "0651928482", 1);
-//     $result = $admin->ViewStatistic();
+try {
+       $admin = new Admin(1, "charaf", "charafeddinetbibzat@gmail.com", "0651928482", 1);
+    $result = $admin->ViewStatistic();
     
-// } catch (\Exception $e) {
-//     echo "Error: " . $e->getMessage();
-// }
+} catch (\Exception $e) {
+    echo "Error: " . $e->getMessage();
+}
 
 ?>
 <!DOCTYPE html>
@@ -145,14 +145,14 @@
         <span class="info">
             <h3>
                 <?php
-                    if ($result && isset($result['total_users'])) {
-                        echo $result['total_users'];
+                    if ($result && isset($result['total_enseignant'])) {
+                        echo $result['total_enseignant'];
                     } else {
                         echo "No data available.";
                     }
                 ?>
             </h3>
-            <p>Clients</p>
+            <p>Enseignant</p>
         </span>
     </li>
     <li>
@@ -160,14 +160,14 @@
         <span class="info">
             <h3>
                 <?php
-                    if ($result && isset($result['total_vehicles'])) {
-                        echo $result['total_vehicles'];
+                    if ($result && isset($result['total_etudient'])) {
+                        echo $result['total_etudient'];
                     } else {
                         echo "No data available.";
                     }
                 ?>
             </h3>
-            <p>Vehicles</p>
+            <p>Etudients</p>
         </span>
     </li>
     <li>
@@ -175,14 +175,14 @@
         <span class="info">
             <h3>
                 <?php
-                    if ($result && isset($result['total_reservations'])) {
-                        echo $result['total_reservations'];
+                    if ($result && isset($result['total_cours'])) {
+                        echo $result['total_cours'];
                     } else {
                         echo "No data available.";
                     }
                 ?>
             </h3>
-            <p>Reservations</p>
+            <p> Cours</p>
         </span>
     </li>
     <li class="flex items-center gap-3">
@@ -192,14 +192,14 @@
     <span class="info">
         <h3 class="text-lg font-semibold">
             <?php
-                if ($result && isset($result['total_res_pen'])) {
-                    echo $result['total_res_pen'];
+                if ($result && isset($result['total_users_activie'])) {
+                    echo $result['total_users_activie'];
                 } else {
                     echo "No data available.";
                 }
             ?>
         </h3>
-        <p>Reservations Pending</p>
+        <p>Total Users Activie</p>
     </span>
 </li>
 <li class="flex items-center gap-3">
