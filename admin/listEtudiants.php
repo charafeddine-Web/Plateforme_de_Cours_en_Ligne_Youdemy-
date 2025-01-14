@@ -52,7 +52,7 @@
         </a>
         <ul class="side-menu w-full mt-12">
     <li class=" h-12 bg-transparent ml-2.5 rounded-l-full p-1">
-        <a href="../index.php">
+        <a href="./index.php">
             <i class="fa-solid fa-chart-pie"></i> Statistic
         </a>
     </li>
@@ -128,10 +128,12 @@
                         <li class="text-[#363949]"><a  href="listClients.php">
                                 index &npr;
                             </a></li>
-                        /
-                        <li class="text-[#363949]"><a href="listCars.php" class="active" >Clients &npr;</a></li> /
-                        <li class="text-[#363949]"><a href="listContrat.php">Vehicles &npr;</a></li> /
-                        <li class="text-[#363949]"><a href="statistic.php">Categorys &npr;</a></li>
+                        
+                        <li class="text-[#363949]"><a href="listCars.php" class="active">Etudients &npr;</a></li> 
+                        <li class="text-[#363949]"><a href="listContrat.php" >Enseignants &npr;</a></li> 
+                        <li class="text-[#363949]"><a href="statistic.php" >Cours &npr;</a></li>
+                        <li class="text-[#363949]"><a href="statistic.php" >Categorys &npr;</a></li>
+                        <li class="text-[#363949]"><a href="statistic.php">Tags &npr;</a></li>
 
                     </ul>
 

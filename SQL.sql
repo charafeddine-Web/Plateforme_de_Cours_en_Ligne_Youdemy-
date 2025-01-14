@@ -33,6 +33,7 @@ CREATE TABLE cours (
     titre VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     contenu TEXT,
+    type ENUM('text','video') not null,
     categorie_id INT,
     enseignant_id INT NOT NULL,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

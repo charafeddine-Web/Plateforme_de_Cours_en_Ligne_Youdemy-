@@ -2,7 +2,7 @@
 
 require_once '../autoload.php'; 
 use Classes\Admin;
-use Classes\Reservation;
+use Classes\Inscription;
 session_start();
 
 // if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
@@ -12,7 +12,7 @@ session_start();
 
 
 try {
-       $admin = new Admin(1, "charaf", "charafeddinetbibzat@gmail.com", "0651928482", 1);
+       $admin = new Admin(1, "charaf eddine", "tbibzat", "charafeddinetbibzat@gmail.com", 1);
     $result = $admin->ViewStatistic();
     
 } catch (\Exception $e) {
@@ -49,7 +49,7 @@ try {
         </a>
         <ul class="side-menu w-full mt-12">
     <li class="active h-12 bg-transparent ml-2.5 rounded-l-full p-1">
-        <a href="../index.php">
+        <a href="./index.php">
             <i class="fa-solid fa-chart-pie"></i> Statistic
         </a>
     </li>
@@ -126,9 +126,11 @@ try {
                                 index &npr;
                             </a></li>
                         
-                        <li class="text-[#363949]"><a href="listCars.php" >Clients &npr;</a></li> 
-                        <li class="text-[#363949]"><a href="listContrat.php">Vehicles &npr;</a></li> 
+                        <li class="text-[#363949]"><a href="listCars.php" >Etudients &npr;</a></li> 
+                        <li class="text-[#363949]"><a href="listContrat.php">Enseignants &npr;</a></li> 
+                        <li class="text-[#363949]"><a href="statistic.php">Cours &npr;</a></li>
                         <li class="text-[#363949]"><a href="statistic.php">Categorys &npr;</a></li>
+                        <li class="text-[#363949]"><a href="statistic.php">Tags &npr;</a></li>
 
                     </ul>
 
@@ -141,7 +143,7 @@ try {
             <!-- insights-->
             <ul class="insights flex justify-center items-center grid grid-cols-[repeat(3,_minmax(240px,_1fr))] gap-[24px] mt-[36px] w-full mx-auto">
     <li>
-        <i class="fa-solid fa-user-group"></i>
+        <i class="fa-solid fa-chalkboard-teacher"></i>
         <span class="info">
             <h3>
                 <?php
@@ -156,7 +158,7 @@ try {
         </span>
     </li>
     <li>
-        <i class="fa-solid fa-car-side"></i>
+        <i class="fa-solid fa-user-graduate"></i>
         <span class="info">
             <h3>
                 <?php
@@ -167,11 +169,11 @@ try {
                     }
                 ?>
             </h3>
-            <p>Etudients</p>
+            <p>Étudiants</p>
         </span>
     </li>
     <li>
-        <i class="fa-solid fa-file-signature"></i>
+        <i class="fa-solid fa-book"></i>
         <span class="info">
             <h3>
                 <?php
@@ -182,62 +184,62 @@ try {
                     }
                 ?>
             </h3>
-            <p> Cours</p>
+            <p>Cours</p>
         </span>
     </li>
     <li class="flex items-center gap-3">
-    <div class="icon bg-yellow-200  rounded-full">
-        <i class="fa-solid fa-clock text-xl text-yellow-600"></i>
-    </div>
-    <span class="info">
-        <h3 class="text-lg font-semibold">
-            <?php
-                if ($result && isset($result['total_users_activie'])) {
-                    echo $result['total_users_activie'];
-                } else {
-                    echo "No data available.";
-                }
-            ?>
-        </h3>
-        <p>Total Users Activie</p>
-    </span>
-</li>
-<li class="flex items-center gap-3">
-    <div class="icon bg-green-200  rounded-full">
-        <i class="fa-solid fa-check-circle text-xl text-green-600"></i>
-    </div>
-    <span class="info">
-        <h3 class="text-lg font-semibold">
-            <?php
-                if ($result && isset($result['total_res_acc'])) {
-                    echo $result['total_res_acc'];
-                } else {
-                    echo "No data available.";
-                }
-            ?>
-        </h3>
-        <p>Reservations Accepted</p>
-    </span>
-</li>
-<li class="flex items-center gap-3">
-    <div class="icon bg-red-200  rounded-full">
-        <i class="fa-solid fa-times-circle text-xl text-red-600"></i>
-    </div>
-    <span class="info">
-        <h3 class="text-lg font-semibold">
-            <?php
-                if ($result && isset($result['total_res_ref'])) {
-                    echo $result['total_res_ref'];
-                } else {
-                    echo "No data available.";
-                }
-            ?>
-        </h3>
-        <p>Reservations Rejected</p>
-    </span>
-</li>
-
+        <div class="icon bg-yellow-200 rounded-full">
+            <i class="fa-solid fa-users text-xl text-yellow-600"></i>
+        </div>
+        <span class="info">
+            <h3 class="text-lg font-semibold">
+                <?php
+                    if ($result && isset($result['total_users_activie'])) {
+                        echo $result['total_users_activie'];
+                    } else {
+                        echo "No data available.";
+                    }
+                ?>
+            </h3>
+            <p>Total Utilisateurs Actifs</p>
+        </span>
+    </li>
+    <!-- <li class="flex items-center gap-3">
+        <div class="icon bg-green-200 rounded-full">
+            <i class="fa-solid fa-check text-xl text-green-600"></i>
+        </div>
+        <span class="info">
+            <h3 class="text-lg font-semibold">
+                <?php
+                    if ($result && isset($result['total_res_acc'])) {
+                        echo $result['total_res_acc'];
+                    } else {
+                        echo "No data available.";
+                    }
+                ?>
+            </h3>
+            <p>Réservations Acceptées</p>
+        </span>
+    </li>
+    <li class="flex items-center gap-3">
+        <div class="icon bg-red-200 rounded-full">
+            <i class="fa-solid fa-times text-xl text-red-600"></i>
+        </div>
+        <span class="info">
+            <h3 class="text-lg font-semibold">
+                <?php
+                    if ($result && isset($result['total_res_ref'])) {
+                        echo $result['total_res_ref'];
+                    } else {
+                        echo "No data available.";
+                    }
+                ?>
+            </h3>
+            <p>Réservations Rejetées</p>
+        </span>
+    </li> -->
 </ul>
+
 
            <!-- Data Content -->
 <div class="bottom-data flex flex-wrap gap-[24px] mt-[24px] w-full">
@@ -252,51 +254,32 @@ try {
         <table class="w-full border-collapse">
             <thead>
                 <tr>
-                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">ID Reservation</th>
-                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">Vehicle</th>
-                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">Client</th>
-                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">Start Date</th>
-                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">End Date</th>
-                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">PickUp Location</th>
-                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">DropOff Location</th>
-                    <th class="pb-3 px-5 text-sm text-left border-b border-grey">Status</th>
+                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">ID Inscription</th>
+                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">Cours</th>
+                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">Description</th>
+                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">Enseignant</th>
+                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">Etudient  </th>
+                    <th class="pb-3 px-3 text-sm text-left border-b border-grey">Date Inscription</th>
                     <th class="pb-3 px-5 text-sm text-left border-b border-grey">Action</th>
                 </tr>
             </thead>
             <tbody>
             <?php
                 try {
-                    $reservation = new Reservation(null, null, null, null, null, null, null, null);
-                    $res = $reservation->ShowAllRes();
+                    $cours = new Inscription();
+                    $res = $cours->getAllInscriptions();
                     if ($res) {
                         foreach ($res as $r) {
-                            $status = htmlspecialchars($r['status']);
-                            $statusClass = 'text-white';
-
-                            switch ($status) {
-                                case 'pending':
-                                    $statusClass = 'text-yellow-500';
-                                    break;
-                                case 'accepted':
-                                    $statusClass = 'text-green-500';
-                                    break;
-                                case 'rejected':
-                                    $statusClass = 'text-red-500';
-                                    break;
-                            }
-
                             echo "<tr class='hover:bg-gray-100 transition-all duration-300'>";
-                            echo '<td class="border p-4 text-center text-sm font-medium text-gray-700">' . htmlspecialchars($r['id_res']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['vehicle_model']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['fullname']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['start_date']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['end_date']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['pickup_location']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['dropoff_location']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm ' . $statusClass . ' rounded-lg font-semibold">' . $status . '</td>';
+                            echo '<td class="border p-4 text-center text-sm font-medium text-gray-700">' . htmlspecialchars($r['idInscription']) . '</td>';
+                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['course_title']) . '</td>';
+                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['course_description']) . '</td>';
+                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['teacher_name']) . '' . htmlspecialchars($r['teacher_surname']) . '</td>';
+                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['student_name']) . '' . htmlspecialchars($r['student_surname']) . '</td>';
+                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['date_inscription']) . '</td>';
                             echo '<td class="border p-4 text-center">';
-                            echo '<a href="accepter_res.php?id_reservation=' . $r['id_res'] . '" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 mx-2">Accepter</a>';
-                            echo '<a href="refuser_res.php?id_reservation=' . $r['id_res'] . '" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 mx-2">Refuser</a>';
+                            echo '<a href="accepter_res.php?idInscription=' . $r['idInscription'] . '" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 mx-2">Accepter</a>';
+                            echo '<a href="refuser_res.php?idInscription=' . $r['idInscription'] . '" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 mx-2">Refuser</a>';
                             echo '</td>';
                             echo "</tr>";
                         }
