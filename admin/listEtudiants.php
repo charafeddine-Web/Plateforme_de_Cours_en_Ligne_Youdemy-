@@ -1,24 +1,24 @@
 <?php
-// require_once '../autoload.php'; 
-// use Classes\Client;
-// session_start();
+require_once '../autoload.php'; 
+use Classes\Etudiant;
+session_start();
 
 // if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
 //     header("Location: ../index.html");
 //     exit;
 // }
 
-// try {
+try {
    
-//     //pour statistic
-//     $admin = new Client(null,null,null,null,2);
-//     $result = $admin->ShowAllClient();
-//     $static= $admin->ViewStatistic();
+    //pour statistic
+    $Etudiant = new Etudiant(null,null,null,null,null,null);
+    $result = $Etudiant->showAllEtudiant();
+    // $static= $admin->ViewStatistic();
     
     
-// } catch (\Exception $e) {
-//     echo "Error: " . $e->getMessage();
-// }
+} catch (\Exception $e) {
+    echo "Error: " . $e->getMessage();
+}
 
 ?>
 
@@ -141,7 +141,7 @@
                 <a id="buttonaddd" href="#"
                     class="buttonaddd report h-[36px] px-[16px] rounded-[36px] bg-[#1976D2] text-[#f6f6f6] flex items-center justify-center gap-[10px] font-medium">
                     <i class="fa-solid fa-car"></i>
-                    <span>Add Client</span>
+                    <span>Add Etudients</span>
                 </a>
             </div>
             <!-- insights-->
@@ -158,7 +158,7 @@
                 }
             ?>
         </h3>
-        <p>Clients with Reservations</p>
+        <p>Etudients with Cours</p>
     </span>
 </li>
 <li>
@@ -173,7 +173,7 @@
                 }
             ?>
         </h3>
-        <p>Clients without Reservations</p>
+        <p>Etudients without Cours</p>
     </span>
 </li>
 
@@ -184,7 +184,7 @@
                 <div class="orders  flex-grow flex-[1_0_500px]">
                     <div class="header  flex items-center gap-[16px] mb-[24px]">
                         <i class='bx bx-list-check'></i>
-                        <h3 class="mr-auto text-[24px] font-semibold">List Cars</h3>
+                        <h3 class="mr-auto text-[24px] font-semibold">List Etudients</h3>
                         <i class='bx bx-filter'></i>
                         <i class='bx bx-search'></i>
                     </div>
@@ -194,8 +194,9 @@
                             <tr class="">
                                 <th class="pb-3 px-3 text-sm text-left border-b border-grey">Registration ID</th>
                                 <th class="pb-3 px-3 text-sm text-left border-b border-grey">Full Name</th>
-                                <th class="pb-3 px-3 text-sm text-left border-b border-grey">Phone Number </th>
                                 <th class="pb-3 px-3 text-sm text-left border-b border-grey">Email </th>
+                                <th class="pb-3 px-3 text-sm text-left border-b border-grey">Date Creation</th>
+                                <th class="pb-3 px-3 text-sm text-left border-b border-grey">Status</th>
                                 <th class="pb-3 px-5 text-sm text-left border-b border-grey">Action</th>
                             </tr>
                         </thead>
@@ -207,13 +208,14 @@
                         foreach ($result as $r) {
                         
                             echo "<tr class='hover:bg-gray-100 transition-all duration-300'>";
-                            echo '<td class="border p-4 text-center text-sm font-medium text-gray-700">' . htmlspecialchars($r['id_user']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['fullname']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['phone']) . '</td>';
+                            echo '<td class="border p-4 text-center text-sm font-medium text-gray-700">' . htmlspecialchars($r['idUser']) . '</td>';
+                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['nom']) . '' . htmlspecialchars($r['prenom']) . '</td>';
                             echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['email']) . '</td>';
+                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['date_creation']) . '</td>';
+                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['status']) . '</td>';
                             echo '<td class="border p-4 text-center">';
-                            echo '<a href="banner_user.php?id_user=' . $r['id_user'] . '" class="buttonaddd bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 mx-2">Banner Client</a>';
-                            echo '<a href="accepter_user.php?id_user=' . $r['id_user'] . '" class="buttonaddd bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 mx-2">Accepter Client</a>';
+                            echo '<a href="banner_user.php?idUser=' . $r['idUser'] . '" class="buttonaddd bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 mx-2">Banner Client</a>';
+                            echo '<a href="accepter_user.php?idUser=' . $r['idUser'] . '" class="buttonaddd bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 mx-2">Accepter Client</a>';
                             echo '</td>';
                             echo "</tr>";
                         }
