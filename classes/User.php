@@ -3,7 +3,7 @@ namespace Classes;
 use Classes\DatabaseConnection;
 use PDO;
 
-abstract class User{
+class User{
     protected $idUser;
     protected $nom;
     protected $prenom;
@@ -58,5 +58,40 @@ public static function logout() {
     }
 }
 
+public function getIdUser() {
+    return $this->idUser;
+}
+public function setIdUser($idUser) {
+    $this->idUser = $idUser;
+}
 
+public function getNom() {
+    return $this->nom;
+}
+
+public function setNom($nom) {
+    $this->nom = $nom;
+}
+public function getPrenom() {
+    return $this->prenom;
+}
+
+public function setPrenom($prenom) {
+    $this->prenom = $prenom;
+}
+
+public function getEmail() {
+    return $this->email;
+}
+
+public function setEmail($email) {
+    $this->email = $email;
+}
+
+public function getIdRole() {
+    return $this->idRole;
+}
+public function setIdRole($idRole) {
+    $this->idRole = $idRole;
+}
 }

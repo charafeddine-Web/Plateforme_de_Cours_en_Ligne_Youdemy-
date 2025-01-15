@@ -7,9 +7,9 @@ use Classes\User;
 
 class Enseignant extends User
 {
-    private $password;
-    private $status;
-    private $dateInscription;
+    protected $password;
+    protected $status;
+    protected $dateInscription;
 
     public function __construct($idUser, $nom, $prenom, $email, $password, $status = 'active', $dateInscription = null)
     {
@@ -51,4 +51,13 @@ class Enseignant extends User
             return false;
         }
     }
+
+      public function getStatus()
+      {
+          return $this->status;
+      }
+      public function setStatus($status)
+      {
+          $this->status = $status;
+      }
 }

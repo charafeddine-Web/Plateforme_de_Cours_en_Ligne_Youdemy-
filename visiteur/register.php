@@ -1,3 +1,13 @@
+
+<?php 
+session_start(); 
+$error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : [];
+$success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : [];
+unset($_SESSION['error_message']);
+unset($_SESSION['success_message']);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -106,17 +116,17 @@
                                         <li >
                                             <a href="../index.php">Home</a>
                                         </li>
-                                        <li><a href="./visiteur/about.php">About</a></li>
+                                        <li><a href="about.php">About</a></li>
                                         <li class="dropdown">
-                                            <a href="./visiteur/courses.php">Courses</a>
+                                            <a href="courses.php">Courses</a>
                                         </li>
                                         <li class="dropdown">
-                                            <a href="./visiteur/teachers-1.php"> Teachers</a>
+                                            <a href="teachers-1.php"> Teachers</a>
                                         </li>
                                         <li class="dropdown">
-                                            <a href="./visiteur/news.php">News</a>
+                                            <a href="news.php">News</a>
                                         </li>
-                                        <li><a href="./visiteur/contact.php">Contact</a></li>
+                                        <li><a href="contact.php">Contact</a></li>
                                     </ul>
                                 </div>
 
@@ -196,7 +206,14 @@
                                     <h4>Fill your Registration</h4>
                                 </div>
                                 <div class="form-box">
-                                    <form method="post" action="">
+                                <?php if (!empty($error_message)): ?>
+                                    <div class="bg-red-500 text-black p-4 rounded">
+                                    <?php foreach ($error_message as $error): ?>
+                                        <p><?php echo htmlspecialchars($error); ?></p>
+                                    <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
+                                    <form method="post" action="register_logic.php">
                                         <div class="form-group">
                                             <input type="text" name="nom" placeholder=" First Name" required="">
                                         </div>
@@ -209,8 +226,26 @@
                                         <div class="form-group">
                                             <input type="text" name="password" placeholder="********" required="" >
                                         </div>
+                                        <div class="form-group">
+                                            <label for="role" class="block font-semibold mb-3 text-lg text-gray-800">
+                                                Select Your Role:
+                                            </label>
+                                            <div class="flex items-center gap-6">
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input type="radio" name="role" value="Etudiant" required
+                                                        class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 rounded-full">
+                                                    <span class="text-gray-700 text-sm font-medium">Student (Étudiant)</span>
+                                                </label>
+                                                <label class="flex items-center gap-2 cursor-pointer">
+                                                    <input type="radio" name="role" value="Enseignant"
+                                                        class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 rounded-full">
+                                                    <span class="text-gray-700 text-sm font-medium">Teacher (Enseignant)</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
                                         <button class="registration-one__right-form-btn" type="submit"
-                                            name="submit-form">
+                                            name="submitregister">
                                             <span class="thm-btn">apply for it</span>
                                         </button>
                                     </form>
@@ -269,7 +304,7 @@
 
         <!--Start Footer One-->
         <footer class="footer-one">
-            <div class="footer-one__bg" style="background-image: url(../assets/images/backgrounds/footer-v1-bg.jpg);">
+            <div class="footer-one__bg" style="background-image: url(../assets/images/backgrounds/footer.jpg);">
             </div><!-- /.footer-one__bg -->
             <div class="footer-one__top">
                 <div class="container">

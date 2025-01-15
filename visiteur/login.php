@@ -1,3 +1,11 @@
+<?php 
+session_start(); 
+$error_message = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : [];
+$success_message = isset($_SESSION['success_message']) ? $_SESSION['success_message'] : [];
+unset($_SESSION['error_message']);
+unset($_SESSION['success_message']);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,6 +40,7 @@
     <link rel="stylesheet" href="../assets/vendors/owl-carousel/owl.carousel.min.css" />
     <link rel="stylesheet" href="../assets/vendors/owl-carousel/owl.theme.default.min.css" />
     <link rel="stylesheet" href="../assets/vendors/twentytwenty/twentytwenty.css" />
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 
     <!-- template styles -->
     <link rel="stylesheet" href="../assets/css/zilom.css" />
@@ -106,17 +115,17 @@
                                         <li >
                                             <a href="../index.php">Home</a>
                                         </li>
-                                        <li><a href="./visiteur/about.php">About</a></li>
+                                        <li><a href="about.php">About</a></li>
                                         <li class="dropdown">
-                                            <a href="./visiteur/courses.php">Courses</a>
+                                            <a href="courses.php">Courses</a>
                                         </li>
                                         <li class="dropdown">
-                                            <a href="./visiteur/teachers-1.php"> Teachers</a>
+                                            <a href="teachers-1.php"> Teachers</a>
                                         </li>
                                         <li class="dropdown">
-                                            <a href="./visiteur/news.php">News</a>
+                                            <a href="news.php">News</a>
                                         </li>
-                                        <li><a href="./visiteur/contact.php">Contact</a></li>
+                                        <li><a href="contact.php">Contact</a></li>
                                     </ul>
                                 </div>
 
@@ -195,16 +204,26 @@
                                 <div class="title-box">
                                     <h4>Log In to Your Account</h4>
                                 </div>
+                                <?php if (!empty($error_message)): ?>
+                                    <div class="bg-red-500  p-4 text-black rounded">
+                                    <?php foreach ($error_message as $error): ?>
+                                        <p><?php echo htmlspecialchars($error); ?></p>
+                                    <?php endforeach; ?>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="form-box">
-                                    <form method="post" action="../index.php">
+                               
+                                    <form method="post" action="login_logic.php">
                                         <div class="form-group">
+                                            <label for="email">Email</label>
                                             <input type="email" name="email" placeholder="Your Email" required="">
                                         </div>
                                         <div class="form-group">
+                                            <label for="password">Password</label>
                                             <input type="text" name="password" placeholder="********" required="">
                                         </div>
                                         <button class="registration-one__right-form-btn" type="submit"
-                                            name="submit-form">
+                                            name="submitlogin">
                                             <span class="thm-btn">Sign in now</span>
                                         </button>
                                     </form>
@@ -266,7 +285,7 @@
 
         <!--Start Footer One-->
         <footer class="footer-one">
-            <div class="footer-one__bg" style="background-image: url(../assets/images/backgrounds/footer-v1-bg.jpg);">
+            <div class="footer-one__bg" style="background-image: url(../assets/images/backgrounds/footer.jpg);">
             </div><!-- /.footer-one__bg -->
             <div class="footer-one__top">
                 <div class="container">
