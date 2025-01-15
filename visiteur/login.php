@@ -5,6 +5,16 @@ $success_message = isset($_SESSION['success_message']) ? $_SESSION['success_mess
 unset($_SESSION['error_message']);
 unset($_SESSION['success_message']);
 
+
+$storedHash = '$2y$10$diaIYOBeppxaOcJqW.p8sOdrRiSdYj/51pGBdlf4raSFqL4BxzI52'; // The hash in your database
+$inputPassword = 'rayan2024'; // Password entered in the form
+
+if (password_verify($inputPassword, $storedHash)) {
+    echo "Password is correct!";
+} else {
+    echo "Password verification failed!";
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

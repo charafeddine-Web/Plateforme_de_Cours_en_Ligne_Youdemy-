@@ -22,29 +22,40 @@ class User{
 
     
     public static function login($email, $password) {
-        $pdo = DatabaseConnection::getInstance()->getConnection();
-        if (!$pdo) {
-            return "Erreur de connexion à la base de données.";
-        }
-    
-        $query = "SELECT idUser, idRole, nom,prenom, password FROM users WHERE email = :email";
-        $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
-    
-        if ($stmt->rowCount() === 1) {
-            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            if (password_verify($password, $user['password'])) {
-                return $user; 
-            }else {
-                error_log("Password verification failed for email: " . $email);
-                return "Mot de passe incorrect.";
+        try {
+            $pdo = DatabaseConnection::getInstance()->getConnection();
+            if (!$pdo) {
+                return "Erreur de connexion à la base de données.";
             }
-        }else {
-            error_log("User not found for email: " . $email);
-            return "Utilisateur introuvable avec cet email.";
+    
+            $query = "SELECT idUser, idRole, nom, prenom, password FROM users WHERE email = :email";
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->execute();
+    
+            if ($stmt->rowCount() === 1) {
+                $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+                // Debug logs
+                error_log("Stored hashed password: " . $user['password']);
+                error_log("Password entered: " . $password);
+                
+                if (password_verify($password, $user['password'])) {
+                    return $user; 
+                } else {
+                    error_log("Password verification failed for email: " . $email);
+                    return "Mot de passe incorrect.";
+                }
+            } else {
+                error_log("User not found for email: " . $email);
+                return "Utilisateur introuvable avec cet email.";
+            }
+        } catch (\PDOException $e) {
+            error_log("Database error: " . $e->getMessage());
+            return "Une erreur est survenue lors de la connexion.";
         }
     }
+    
     
 
 

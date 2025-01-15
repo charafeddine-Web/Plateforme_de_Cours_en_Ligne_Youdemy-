@@ -8,8 +8,8 @@ $success_message = "";
 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submitlogin'])) {
     $error_message = [];
 
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+    $email = trim(strtolower($_POST['email']));
+    $password = trim(strtolower($_POST['password']));
 
     if (empty($email) || empty($password)) {
         $error_message[] = "Veuillez remplir tous les champs.";
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['submitlogin'])) {
         $_SESSION['user'] = $user; 
         $_SESSION['id_user'] = $user['idUser'];
         $_SESSION['id_role'] = $user['idRole'];
-        $_SESSION['fullname'] = $user['nom']+$user['prenom'];
+        $_SESSION['fullname'] = $user['nom'].' '.$user['prenom'];
     
         if ($_SESSION['id_role'] == 2) {
             header("Location: ../ensgeignant/indexEns.php");
