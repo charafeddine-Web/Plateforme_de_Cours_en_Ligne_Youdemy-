@@ -9,9 +9,9 @@ class Cours_Text extends Cours
 {
     private $contenu;
 
-    public function __construct($titre, $description, $contenu = null, $categorie_id = null, $enseignant_id)
+    public function __construct($titre, $description, $contenu = null, $categorie_id = null, $enseignant_id,$type)
     {
-        parent::__construct($titre, $description, $categorie_id, $enseignant_id);
+        parent::__construct($titre, $description, $categorie_id, $enseignant_id,$type);
         $this->contenu = $contenu;
     }
 
@@ -19,8 +19,8 @@ class Cours_Text extends Cours
     {
         try {
             $pdo = DatabaseConnection::getInstance()->getConnection();
-            $sql = "INSERT INTO cours (titre, description, contenu, categorie_id, enseignant_id) 
-                    VALUES (:titre, :description, :contenu, :categorie_id, :enseignant_id)";
+            $sql = "INSERT INTO cours (titre, description, contenu, categorie_id, enseignant_id,type) 
+                    VALUES (:titre, :description, :contenu, :categorie_id, :enseignant_id,:type)";
             $stmt = $pdo->prepare($sql);
 
             $stmt->bindParam(':titre', $this->titre, \PDO::PARAM_STR);
@@ -28,6 +28,7 @@ class Cours_Text extends Cours
             $stmt->bindParam(':contenu', $this->contenu, \PDO::PARAM_STR);
             $stmt->bindParam(':categorie_id', $this->categorie_id, \PDO::PARAM_INT);
             $stmt->bindParam(':enseignant_id', $this->enseignant_id, \PDO::PARAM_INT);
+            $stmt->bindParam(':type', $this->type, \PDO::PARAM_INT);
 
             return $stmt->execute();
         } catch (\PDOException $e) {

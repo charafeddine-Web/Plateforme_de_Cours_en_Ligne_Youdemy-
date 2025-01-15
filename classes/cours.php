@@ -11,13 +11,15 @@ abstract class Cours
     protected $description;
     protected $categorie_id;
     protected $enseignant_id;
+    protected $type;
 
-    public function __construct($titre, $description, $categorie_id = null, $enseignant_id)
+    public function __construct($titre, $description, $categorie_id = null, $enseignant_id,$type)
     {
         $this->titre = $titre;
         $this->description = $description;
         $this->categorie_id = $categorie_id;
         $this->enseignant_id = $enseignant_id;
+        $this->type = $type;
     }
     public static function ViewStatisticcours() {
         try {
@@ -45,12 +47,12 @@ abstract class Cours
     }
     public abstract function addCours();
 
-    public function updateCours($idCours, $titre, $description, $contenu, $categorie_id)
+    public function updateCours($idCours, $titre, $description, $contenu, $categorie_id,$type)
     {
         try {
             $pdo = DatabaseConnection::getInstance()->getConnection();
             $sql = "UPDATE cours 
-                    SET titre = :titre, description = :description, contenu = :contenu, categorie_id = :categorie_id 
+                    SET titre = :titre, description = :description, contenu = :contenu, categorie_id = :categorie_id , type= :type
                     WHERE idCours = :idCours";
             $stmt = $pdo->prepare($sql);
 
@@ -59,6 +61,7 @@ abstract class Cours
             $stmt->bindParam(':description', $description, \PDO::PARAM_STR);
             $stmt->bindParam(':contenu', $contenu, \PDO::PARAM_STR);
             $stmt->bindParam(':categorie_id', $categorie_id, \PDO::PARAM_INT);
+            $stmt->bindParam(':type', $type);
 
             return $stmt->execute();
         } catch (\PDOException $e) {

@@ -37,10 +37,10 @@ session_start();
 
  $result =  Cours::ViewStatisticcours();
 
- $res_cours_text=new Cours_Text(null,null,null,null,null);
+ $res_cours_text=new Cours_Text(null,null,null,null,null,null);
  $rstext=$res_cours_text->getAllCours();
 
- $res_cours_video=new Cours_video(null,null,null,null,null);
+ $res_cours_video=new Cours_video(null,null,null,null,null,null);
  $rsvideo=$res_cours_video->getAllCours();
 
 

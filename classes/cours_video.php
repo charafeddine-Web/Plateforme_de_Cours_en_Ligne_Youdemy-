@@ -9,9 +9,9 @@ class Cours_Video extends Cours
 {
     private $contenu;
 
-    public function __construct($titre, $description, $categorie_id = null, $enseignant_id, $contenu)
+    public function __construct($titre, $description, $categorie_id = null, $enseignant_id, $contenu,$type)
     {
-        parent::__construct($titre, $description, $categorie_id, $enseignant_id);
+        parent::__construct($titre, $description, $categorie_id, $enseignant_id,$type);
         $this->contenu = $contenu;
     }
     public function addCours()
@@ -27,6 +27,7 @@ class Cours_Video extends Cours
             $stmt->bindParam(':contenu', $this->contenu, \PDO::PARAM_STR);
             $stmt->bindParam(':categorie_id', $this->categorie_id, \PDO::PARAM_INT);
             $stmt->bindParam(':enseignant_id', $this->enseignant_id, \PDO::PARAM_INT);
+            $stmt->bindParam(':type', $this->type, \PDO::PARAM_INT);
             return $stmt->execute();
         } catch (\PDOException $e) {
             echo "Error adding cours: " . $e->getMessage();
