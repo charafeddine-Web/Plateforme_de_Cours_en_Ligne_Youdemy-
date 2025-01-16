@@ -27,8 +27,8 @@ class Cours_Text extends Cours
             $stmt->bindParam(':description', $this->description, \PDO::PARAM_STR);
             $stmt->bindParam(':contenu', $this->contenu, \PDO::PARAM_STR);
             $stmt->bindParam(':categorie_id', $this->categorie_id, \PDO::PARAM_INT);
-            $stmt->bindParam(':enseignant_id', $this->enseignant_id, \PDO::PARAM_INT);
-            $stmt->bindParam(':type', $this->type, \PDO::PARAM_INT);
+            $stmt->bindParam(':enseignant_id', $this->enseignant_id);
+            $stmt->bindParam(':type', $this->type, \PDO::PARAM_STR);
 
             return $stmt->execute();
         } catch (\PDOException $e) {

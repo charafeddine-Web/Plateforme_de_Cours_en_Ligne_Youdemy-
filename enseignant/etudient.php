@@ -29,17 +29,18 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
       <ul class="space-y-2">
        
         <li>
-          <a href="indexEns.php" class="flex items-center gap-4 py-2 px-4 rounded-lg bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md">
+          <a href="indexEns.php" class="flex items-center gap-4 text-white py-2 px-4 rounded-lg hover:bg-gray-700">
           <i class="fas fa-tachometer-alt text-sm"></i>
           <span>Dashboard</span>
           </a>
         </li>
         <li>
-          <a href="etudient.php" class="flex items-center gap-4 text-white py-2 px-4 rounded-lg hover:bg-gray-700">
-            <i class="fas fa-users text-sm"></i>
-            <span>Étudiants</span>
+          <a href="etudient.php" class="flex items-center gap-4 py-2 px-4 rounded-lg bg-gradient-to-tr from-blue-600 to-blue-400 text-white shadow-md">
+          <i class="fas fa-users text-sm"></i>
+          <span>Étudiants</span>
           </a>
         </li>
+        
         <li>
           <a href="cours.php" class="flex items-center gap-4 text-white py-2 px-4 rounded-lg hover:bg-gray-700">
             <i class="fas fa-book text-sm"></i>
@@ -78,8 +79,7 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
     <!-- Content -->
      <div class="flex justify-between items-center mx-8">
         <div class="p-4">
-        <h1 class="text-2xl font-semibold text-gray-800 mb-4">Welcome to Home</h1>
-        <p class="text-gray-600">Manage your courses, students, and much more.</p>
+        <h1 class="text-2xl font-semibold text-gray-800 mb-4">Welcome to Etudient</h1>
         </div>
         <div>
             <button class="p-2 bg-indigo-900 rounded-xl font-bold text-white">Rapport</button>

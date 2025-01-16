@@ -21,6 +21,8 @@ abstract class Cours
         $this->enseignant_id = $enseignant_id;
         $this->type = $type;
     }
+    public abstract function addCours();
+
     public static function ViewStatisticcours() {
         try {
             $pdo = DatabaseConnection::getInstance()->getConnection();
@@ -45,7 +47,6 @@ abstract class Cours
             return false; 
         }
     }
-    public abstract function addCours();
 
     public function updateCours($idCours, $titre, $description, $contenu, $categorie_id,$type)
     {

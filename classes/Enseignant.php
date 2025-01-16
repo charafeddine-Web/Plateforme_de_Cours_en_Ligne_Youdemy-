@@ -8,14 +8,12 @@ use Classes\User;
 class Enseignant extends User
 {
     protected $password;
-    protected $status;
     protected $dateInscription;
 
     public function __construct($idUser, $nom, $prenom, $email, $password, $status = 'active', $dateInscription = null)
     {
-        parent::__construct($idUser, $nom, $prenom, $email, 2); 
+        parent::__construct($idUser, $nom, $prenom, $email,$status, 2); 
         $this->password = $password;
-        $this->status = $status;
         $this->dateInscription = $dateInscription ?? date('Y-m-d H:i:s'); 
     }
 
@@ -27,7 +25,7 @@ class Enseignant extends User
                     VALUES (:nom, :prenom, :email, :password, :status, :dateInscription, :idRole)";
             $stmt = $con->prepare($sql);
 
-            $hashedPassword = password_hash($this->password, PASSWORD_DEFAULT);
+            $hashedPassword = password_hash($this->password, PASSWORD_BCRYPT);
             $idRole = 2; 
 
             $stmt->bindParam(':nom', $this->nom, \PDO::PARAM_STR);

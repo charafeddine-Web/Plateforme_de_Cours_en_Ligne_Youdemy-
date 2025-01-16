@@ -35,29 +35,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submitregister'])) {
         header('Location: ./register.php');
         exit();
     }
-    
-    $hashed_password = password_hash($password, PASSWORD_BCRYPT);
 
     if ($role === 'Etudiant') {
-        $user = new Etudiant(null, $nom, $prenom, $email, $hashed_password);
-        $role_id = 3; 
+        $user = new Etudiant(null, $nom, $prenom, $email, $password);
+        $user->setIdRole(3);
     } elseif ($role === 'Enseignant') {
-        $user = new Enseignant(null, $nom, $prenom, $email, $hashed_password);
-        $role_id = 2; 
-    }
+        $user = new Enseignant(null, $nom, $prenom, $email, $password);
+        $user->setIdRole(2);    }
 
     if ($user->register()) {
         $_SESSION['user_id'] = $user->getIdUser();
-        $_SESSION['fullname'] = $user->getNom() . ' ' . $user->getPrenom();
-        $_SESSION['role_id'] = $role_id;
-        if ($role_id === 2) {
-            header("Location: ../enseignant/indexEns.php");
-        } elseif ($role_id === 3) {
+        $_SESSION['user_name'] = "{$nom} {$prenom}";
+        $_SESSION['role_id'] = $user->getIdRole();
+
+        if ($user->getIdRole() == 3) {
             header("Location: ../etudient/indexEtu.php");
+        } elseif ($user->getIdRole() == 2) {
+            header("Location: ../enseignant/indexEns.php");
         }
         exit();
     } else {
-        $error_message[] = "Failed to register user. Please try again.";
+        $error_message[] = "Registration failed. Please try again.";
         $_SESSION['error_message'] = $error_message;
         header('Location: ./register.php');
         exit();
