@@ -12,7 +12,7 @@ class Enseignant extends User
 
     public function __construct($idUser, $nom, $prenom, $email, $password, $status = 'active', $dateInscription = null)
     {
-        parent::__construct($idUser, $nom, $prenom, $email,$status, 2); 
+        parent::__construct($idUser, $nom, $prenom, $email,2,$status); 
         $this->password = $password;
         $this->dateInscription = $dateInscription ?? date('Y-m-d H:i:s'); 
     }

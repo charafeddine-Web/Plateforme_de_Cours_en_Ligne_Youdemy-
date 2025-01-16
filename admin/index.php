@@ -5,14 +5,14 @@ use Classes\Admin;
 use Classes\Inscription;
 session_start();
 
-// if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
-//     header("Location: ../index.php");
-//     exit;
-// }
+if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
+    header("Location: ../index.php");
+    exit;
+}
 
 
 try {
-       $admin = new Admin(1, "charaf eddine", "tbibzat", "charafeddinetbibzat@gmail.com", 1);
+       $admin = new Admin(1, "charaf eddine", "tbibzat", "charafeddinetbibzat@gmail.com", 1,'active');
     $result = $admin->ViewStatistic();
     
 } catch (\Exception $e) {

@@ -2,16 +2,19 @@
 require_once '../autoload.php';
 
 use Classes\Categorie;
+use Classes\Cours_Video;
+use Classes\Cours_Text;
+use Classes\Cours;
 session_start();
 
-if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 2)) {
-    header("Location: ../index.html");
-    exit;
-}
+// if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 2)) {
+//     header("Location: ../index.html");
+//     exit;
+// }
 //pour show category 
-
 $category=new Categorie(null,null,null,null);
 $categories=$category->showCategories();
+
 
 ?>
 <!DOCTYPE html>
@@ -22,6 +25,22 @@ $categories=$category->showCategories();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
     <title>Cours - Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+<style>
+    @media screen and (max-width: 768px) {
+        table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+    }
+    html, body {
+    height: 100%;
+    overflow: hidden; /* Prevent unexpected scrollbars */
+}
+
+</style>
 </head>
 <body>
 <div class="min-h-screen bg-gray-50/50">
@@ -62,29 +81,35 @@ $categories=$category->showCategories();
       </ul>
       <div class="mt-8">
         <p class="text-sm uppercase text-gray-400 mb-4">Auth Pages</p>
-        <a href="#" class="flex items-center gap-4 text-white py-2 px-4 rounded-lg hover:bg-gray-700">
+        <form action="../logout.php" method="POST">
+        <button type="submit" name="submit"  class="flex items-center gap-4 text-white py-2 px-4 rounded-lg hover:bg-gray-700">
           <i class="fas fa-sign-out-alt text-sm"></i>
           <span>Log Out</span>
-        </a>
+      </button>
+        </form>
+        
       </div>
     </nav>
   </aside>
   <!-- Main Content -->
-  <div class="xl:ml-72 transition-all duration-300">
+  <div class="xl:ml-72 transition-all duration-300 fixed right-0 left-0 top-0 max-h-screen overflow-y-auto">
     <!-- Navbar -->
-    <nav class="flex items-center justify-between bg-white shadow-sm px-4 py-3">
+    <nav class="fixed top-0 left-0 w-full flex items-center justify-between bg-white shadow-sm px-4 py-3 z-50">
       <button class="text-gray-800 focus:outline-none xl:hidden" id="menuOpen">
         <i class="fas fa-bars"></i>
       </button>
-      <h2 class="text-gray-700 font-semibold">Home</h2>
+      <h2 class="text-gray-700 font-semibold pl-80">Home</h2>
       <div class="relative">
         <input type="text" placeholder="Search" class="border rounded-md pl-10 pr-4 py-2 text-gray-700 w-64">
         <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
       </div>
     </nav>
+
+    <div class="mt-24 ">
+      
     <!-- Content -->
      <!-- Main Content -->
-<div class="flex justify-between items-center mx-8">
+<div class="flex justify-between items-center mx-8  ">
   <div class="p-4">
     <h1 class="text-2xl font-semibold text-gray-800 mb-4">Welcome to Cours</h1>
     <p class="text-gray-600">Manage your courses, students, and much more.</p>
@@ -94,7 +119,7 @@ $categories=$category->showCategories();
   </div>
 </div>
 <!-- Add Course Modal -->
-<div id="addCourseModal" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
+<div id="addCourseModal" class="fixed inset-0 z-50 bg-gray-900 bg-opacity-50 flex items-center justify-center hidden">
   <div class="bg-white rounded-lg p-6 w-96 shadow-xl relative">
     <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -103,7 +128,7 @@ $categories=$category->showCategories();
       Add New Course
       
     </h2>
-    <form id="addCourseForm" method="POST" action="add_cours.php">
+    <form id="addCourseForm" method="POST" action="add_cours.php" enctype="multipart/form-data">
     <input type="hidden" name="enseignant_id" id="enseignant_id" value="<?php echo intval($_SESSION['id_user']); ?>">
     <!-- Title -->
       <div class="mb-4">
@@ -147,7 +172,7 @@ $categories=$category->showCategories();
           </svg>
           Upload Video:
         </label>
-        <input type="file" id="contenuVideo" name="contenuVideo" accept="video/*" class="w-full p-2 border rounded-lg">
+        <input type="file" id="contenuVideo" name="contenuVideo"  class="w-full p-2 border rounded-lg">
       </div>
 
       <div class="mb-4 hidden" id="textArea">
@@ -172,7 +197,116 @@ $categories=$category->showCategories();
   </div>
 </div>
 
+<div class="container mx-auto p-4 overflow-hidden">
+  <h2 class="text-2xl font-semibold mb-4">Courses Video</h2>
+  <div class="overflow-x-auto">
+    <div class="max-h-64 overflow-y-auto border border-gray-300 rounded-lg shadow-md">
+      <table class="min-w-full bg-white">
+        <thead class="bg-indigo-600 text-white sticky top-0">
+          <tr>
+            <th class="px-4 py-2 text-left">ID</th>
+            <th class="px-4 py-2 text-left">Title</th>
+            <th class="px-4 py-2 text-left">Description</th>
+            <th class="px-4 py-2 text-left">Category</th>
+            <th class="px-4 py-2 text-left">Date</th>
+            <th class="px-4 py-2 text-left">Type</th>
+            <th class="px-4 py-2 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php 
+            try {
+              $cours = new Cours_Video(null, null, null, null, null, null);
+              $result = $cours->getAllCours();
+
+              if ($result) {
+                foreach ($result as $ct) {
+                  echo "<tr class='hover:bg-gray-100'>";
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['idCours']) . '</td>';
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['titre']) . '</td>';
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['description']) . '</td>';
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['nom']) . '</td>';
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['date_creation']) . '</td>';
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['type']) . '</td>';
+                  echo '<td class="border px-4 py-2 flex items-center justify-around">';
+                  echo '<a href="#" class="text-blue-500 hover:text-blue-700 flex items-center"><i class="fas fa-edit mr-1"></i> Edit</a>';
+                  echo '<a href="delete_cours.php?idCours=' . $ct['idCours'] . '" class="text-red-500 hover:text-red-700 flex items-center" onclick="return confirm(\'Are you sure you want to delete this course?\')"><i class="fas fa-trash-alt mr-1"></i> Delete</a>';
+                  echo '<a href="javascript:void(0);" class="text-green-500 hover:text-green-700 flex items-center" onclick="showCategoryDetails(' . $ct['idCours'] . ')"><i class="fas fa-eye mr-1"></i> View</a>';
+                  echo '</td>';
+                  echo "</tr>";
+                }
+              } else {
+                echo "<tr><td colspan='7' class='text-center px-4 py-2'>No courses available.</td></tr>";
+              }
+            } catch (PDOException $e) {
+              echo "<tr><td colspan='7' class='text-center px-4 py-2 text-red-500'>Error: " . $e->getMessage() . "</td></tr>";
+            }
+          ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="container mx-auto p-4">
+  <h2 class="text-2xl font-semibold mb-4">Courses Text</h2>
+  <div class="overflow-x-auto">
+    <div class="max-h-64 overflow-y-auto border border-gray-300 rounded-lg shadow-md">
+      <table class="min-w-full bg-white">
+        <thead class="bg-green-600 text-white sticky top-0">
+          <tr>
+            <th class="px-4 py-2 text-left">ID</th>
+            <th class="px-4 py-2 text-left">Title</th>
+            <th class="px-4 py-2 text-left">Description</th>
+            <th class="px-4 py-2 text-left">Category</th>
+            <th class="px-4 py-2 text-left">Date</th>
+            <th class="px-4 py-2 text-left">Type</th>
+            <th class="px-4 py-2 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php 
+            try {
+              $cours = new Cours_Text(null, null, null, null, null, null, null);
+              $result = $cours->getAllCours();
+
+              if ($result) {
+                foreach ($result as $ct) {
+                  echo "<tr class='hover:bg-gray-100'>";
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['idCours']) . '</td>';
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['titre']) . '</td>';
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['description']) . '</td>';
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['nom']) . '</td>';
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['date_creation']) . '</td>';
+                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['type']) . '</td>';
+                  echo '<td class="border px-4 py-2 flex items-center justify-around">';
+                  echo '<a href="#" class="text-blue-500 hover:text-blue-700 flex items-center"><i class="fas fa-edit mr-1"></i> Edit</a>';
+                  echo '<a href="delete_cours.php?idCours=' . $ct['idCours'] . '" class="text-red-500 hover:text-red-700 flex items-center" onclick="return confirm(\'Are you sure you want to delete this course?\')"><i class="fas fa-trash-alt mr-1"></i> Delete</a>';
+                  echo '<a href="javascript:void(0);" class="text-green-500 hover:text-green-700 flex items-center" onclick="showCategoryDetails(' . $ct['idCours'] . ')"><i class="fas fa-eye mr-1"></i> View</a>';
+                  echo '</td>';
+                  echo "</tr>";
+                }
+              } else {
+                echo "<tr><td colspan='7' class='text-center px-4 py-2'>No courses available.</td></tr>";
+              }
+            } catch (PDOException $e) {
+              echo "<tr><td colspan='7' class='text-center px-4 py-2 text-red-500'>Error: " . $e->getMessage() . "</td></tr>";
+            }
+          ?>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+   
+  </div>
+</div>
+
+
 <script>
+  // pour type e content 
   function toggleContent(type) {
     const videoUpload = document.getElementById('videoUpload');
     const textArea = document.getElementById('textArea');
@@ -184,11 +318,7 @@ $categories=$category->showCategories();
       textArea.classList.remove('hidden');
     }
   }
-</script>
-
-
-<!-- JavaScript -->
-<script>
+// pour model add cours
   const addCourseButton = document.getElementById('addCourseButton');
   const addCourseModal = document.getElementById('addCourseModal');
   const closeModal = document.getElementById('closeModal');
@@ -199,13 +329,8 @@ $categories=$category->showCategories();
   closeModal.addEventListener('click', () => {
     addCourseModal.classList.add('hidden');
   });
-</script>
 
-   
-  </div>
-</div>
-
-<script>
+  //pour responsive
   const sidebar = document.querySelector("aside");
   const menuOpen = document.getElementById("menuOpen");
   const sidebarToggle = document.getElementById("sidebarToggle");

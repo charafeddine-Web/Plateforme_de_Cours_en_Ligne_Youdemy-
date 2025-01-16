@@ -9,7 +9,7 @@ class Cours_Text extends Cours
 {
     private $contenu;
 
-    public function __construct($titre, $description, $contenu = null, $categorie_id = null, $enseignant_id,$type)
+    public function __construct($titre, $description, $contenu , $categorie_id , $enseignant_id,$type)
     {
         parent::__construct($titre, $description, $categorie_id, $enseignant_id,$type);
         $this->contenu = $contenu;
@@ -36,7 +36,7 @@ class Cours_Text extends Cours
             return false;
         }
     }
-    public function getAllCours()
+    public function getAllCourss()
     {
         try {
             $pdo = DatabaseConnection::getInstance()->getConnection();
@@ -53,6 +53,23 @@ class Cours_Text extends Cours
                     'res_cours_text' => 0
                 ];
             }
+        } catch (\PDOException $e) {
+            echo "Error fetching cours: " . $e->getMessage();
+            return false;
+        }
+    }
+    public function getAllCours()
+    {
+        try {
+            $pdo = DatabaseConnection::getInstance()->getConnection();
+            $sql = "SELECT c.idCours,c.titre,c.description,c.type,ct.nom,ct.idCategory,c.date_creation FROM cours c 
+            JOIN categories ct on ct.idCategory=c.categorie_id 
+            WHERE type = 'text'";
+            $stmt = $pdo->prepare($sql);
+    
+            $stmt->execute();
+            return $stmt->fetchAll();
+        
         } catch (\PDOException $e) {
             echo "Error fetching cours: " . $e->getMessage();
             return false;

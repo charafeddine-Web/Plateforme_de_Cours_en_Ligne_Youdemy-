@@ -11,7 +11,7 @@ class Etudiant extends User
 
     public function __construct($idUser, $nom, $prenom, $email, $password, $status = 'active')
     {
-        parent::__construct($idUser, $nom, $prenom, $email,$status, 3); 
+        parent::__construct($idUser, $nom, $prenom, $email,3,$status); 
         $this->password = $password;
     }
 

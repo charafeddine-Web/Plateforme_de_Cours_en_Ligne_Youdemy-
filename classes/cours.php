@@ -48,30 +48,30 @@ abstract class Cours
         }
     }
 
-    public function updateCours($idCours, $titre, $description, $contenu, $categorie_id,$type)
-    {
-        try {
-            $pdo = DatabaseConnection::getInstance()->getConnection();
-            $sql = "UPDATE cours 
-                    SET titre = :titre, description = :description, contenu = :contenu, categorie_id = :categorie_id , type= :type
-                    WHERE idCours = :idCours";
-            $stmt = $pdo->prepare($sql);
+    // public static function updateCours($idCours, $titre, $description, $contenu, $categorie_id,$type)
+    // {
+    //     try {
+    //         $pdo = DatabaseConnection::getInstance()->getConnection();
+    //         $sql = "UPDATE cours 
+    //                 SET titre = :titre, description = :description, contenu = :contenu, categorie_id = :categorie_id , type= :type
+    //                 WHERE idCours = :idCours";
+    //         $stmt = $pdo->prepare($sql);
 
-            $stmt->bindParam(':idCours', $idCours, \PDO::PARAM_INT);
-            $stmt->bindParam(':titre', $titre, \PDO::PARAM_STR);
-            $stmt->bindParam(':description', $description, \PDO::PARAM_STR);
-            $stmt->bindParam(':contenu', $contenu, \PDO::PARAM_STR);
-            $stmt->bindParam(':categorie_id', $categorie_id, \PDO::PARAM_INT);
-            $stmt->bindParam(':type', $type);
+    //         $stmt->bindParam(':idCours', $idCours, \PDO::PARAM_INT);
+    //         $stmt->bindParam(':titre', $titre, \PDO::PARAM_STR);
+    //         $stmt->bindParam(':description', $description, \PDO::PARAM_STR);
+    //         $stmt->bindParam(':contenu', $contenu, \PDO::PARAM_STR);
+    //         $stmt->bindParam(':categorie_id', $categorie_id, \PDO::PARAM_INT);
+    //         $stmt->bindParam(':type', $type);
 
-            return $stmt->execute();
-        } catch (\PDOException $e) {
-            echo "Error updating cours: " . $e->getMessage();
-            return false;
-        }
-    }
+    //         return $stmt->execute();
+    //     } catch (\PDOException $e) {
+    //         echo "Error updating cours: " . $e->getMessage();
+    //         return false;
+    //     }
+    // }
 
-    public function deleteCours($idCours)
+    public static function deleteCours($idCours)
     {
         try {
             $pdo = DatabaseConnection::getInstance()->getConnection();
@@ -123,4 +123,26 @@ abstract class Cours
             return false;
         }
     }
+    public static function staticCours(){
+        $pdo = DatabaseConnection::getInstance()->getConnection();
+        $query = "
+            SELECT 
+                (SELECT COUNT(*) FROM cours) AS total_cours,
+                (SELECT COUNT(*) FROM users WHERE idRole = 2) AS total_etudiants,
+                (SELECT COUNT(*) FROM inscriptions WHERE DATE(date_inscription) = CURDATE()) AS nouveaux_etudiants
+        ";
+
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+    
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+        return [
+            'total_cours' => $result['total_cours'],
+            'total_etudiants' => $result['total_etudiants'],
+            'nouveaux_etudiants' => $result['nouveaux_etudiants']
+        ];
+    }
+    
+    
 }

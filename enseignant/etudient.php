@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 2)) {
-    header("Location: ../index.html");
-    exit;
-}
+// if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 2)) {
+//     header("Location: ../index.html");
+//     exit;
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">

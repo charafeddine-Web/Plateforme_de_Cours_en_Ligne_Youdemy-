@@ -51,7 +51,7 @@ public static function login($email, $password) {
             error_log("User not found for email: " . $email);
             return "Utilisateur introuvable avec cet email.";
         }
-    } catch (PDOException $e) {
+    } catch (\PDOException $e) {
         error_log("Database error: " . $e->getMessage());
         return "Une erreur est survenue lors de la connexion.";
     }
@@ -62,10 +62,10 @@ public static function login($email, $password) {
 
 public static function logout() {
     session_start();
-    if (isset($_SESSION['idUser'])) {  
+    if (isset($_SESSION['id_user'])) {  
         session_unset();  
         session_destroy();  
-        header("Location: ../index.php");  
+        header("Location: ./index.php");  
         exit();
     }
 }
