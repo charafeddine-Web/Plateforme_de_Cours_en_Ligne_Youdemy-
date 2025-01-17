@@ -44,9 +44,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submitregister'])) {
         $user->setIdRole(2);    }
 
     if ($user->register()) {
-        $_SESSION['user_id'] = $user->getIdUser();
+        $_SESSION['id_user'] = $user->getIdUser();
         $_SESSION['user_name'] = "{$nom} {$prenom}";
-        $_SESSION['role_id'] = $user->getIdRole();
+        $_SESSION['id_role'] = $user->getIdRole();
 
         if ($user->getIdRole() == 3) {
             header("Location: ../etudient/indexEtu.php");

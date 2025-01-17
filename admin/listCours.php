@@ -6,42 +6,19 @@ use Classes\Cours_Text;
 use Classes\Cours_video;
 session_start();
 
-// if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
-//     header("Location: ../index.html");
-//     exit;
-// // }
+if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
+    header("Location: ../index.php");
+    exit;
+}
 
-// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-//     try {
-//         $titre = $_POST['titre'] ;
-//         $description = $_POST['description'] ;
-//         $contenu = $_POST['contenu'] ;
-//         $category_id = $_POST['category_id'] ;
-//         $enseignant_id = $_POST['enseignant_id'] ;
-        
-
-//         if (!$titre || !$description|| !$contenu) {
-//             throw new Exception("Invalid form submission.");
-//         }
-
-
-//             $Cours = new Cours_text();
-
-//             if (!$Cours->addVeh()) {
-//                 throw new Exception("Failed to save Cours .");
-//             }
-//         }
-
-    
-// }
 
  $result =  Cours::ViewStatisticcours();
 
  $res_cours_text=new Cours_Text(null,null,null,null,null,null);
- $rstext=$res_cours_text->getAllCours();
+ $rstext=$res_cours_text->getAllCourss();
 
  $res_cours_video=new Cours_video(null,null,null,null,null,null);
- $rsvideo=$res_cours_video->getAllCours();
+ $rsvideo=$res_cours_video->getAllCourss();
 
 
 ?>
@@ -100,11 +77,14 @@ session_start();
     </li>
 </ul>
 
-        <ul class="side-menu w-full mt-12">
-            <li class="h-12 bg-transparent ml-2.5 rounded-l-full p-1">
-                <a href="../Visiteur/logout.php" class="logout">
+       
+<ul class="side-menu w-full mt-12">
+            <li class="h-12 bg-transparent ml-2.2 md:ml-2 rounded-l-full p-1">
+            <form action="../logout.php" method="POST">
+                <button type="submit" name="submit" class="logout flex">
                     <i class='bx bx-log-out-circle'></i> Logout
-                </a>
+                </button>
+            </form>
             </li>
         </ul>
     </div>

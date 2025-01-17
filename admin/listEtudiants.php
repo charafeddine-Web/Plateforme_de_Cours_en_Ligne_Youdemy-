@@ -3,17 +3,17 @@ require_once '../autoload.php';
 use Classes\Etudiant;
 session_start();
 
-// if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
-//     header("Location: ../index.html");
-//     exit;
-// }
+if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
+    header("Location: ../index.php");
+    exit;
+}
 
 try {
    
     //pour statistic
     $Etudiant = new Etudiant(null,null,null,null,null,null);
     $result = $Etudiant->showAllEtudiant();
-    // $static= $admin->ViewStatistic();
+    $static= $Etudiant->statistiqueEtudiants();
     
     
 } catch (\Exception $e) {
@@ -83,11 +83,14 @@ try {
     </li>
 </ul>
 
-        <ul class="side-menu w-full mt-12">
-            <li class="h-12 bg-transparent ml-2.5 rounded-l-full p-1">
-                <a href="../Visiteur/logout.php" class="logout">
+
+<ul class="side-menu w-full mt-12">
+            <li class="h-12 bg-transparent ml-2.2 md:ml-2 rounded-l-full p-1">
+            <form action="../logout.php" method="POST">
+                <button type="submit" name="submit" class="logout flex">
                     <i class='bx bx-log-out-circle'></i> Logout
-                </a>
+                </button>
+            </form>
             </li>
         </ul>
     </div>
@@ -212,10 +215,15 @@ try {
                             echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['nom']) . '' . htmlspecialchars($r['prenom']) . '</td>';
                             echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['email']) . '</td>';
                             echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['date_creation']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['status']) . '</td>';
-                            echo '<td class="border p-4 text-center">';
-                            echo '<a href="banner_user.php?idUser=' . $r['idUser'] . '" class="buttonaddd bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 mx-2">Banner Client</a>';
-                            echo '<a href="accepter_user.php?idUser=' . $r['idUser'] . '" class="buttonaddd bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 mx-2">Accepter Client</a>';
+                            $statusClass = $r['status'] === 'active' 
+                            ? 'bg-green-200 text-green-800' 
+                            : 'bg-red-200 text-red-800';
+                        echo '<td class="border p-4 text-center text-sm font-medium">';
+                        echo '<span class="px-3 py-1 rounded-full ' . $statusClass . '">'
+                            . htmlspecialchars(ucfirst($r['status'])) . '</span>';
+                        echo '</td>';                            echo '<td class="border p-4 text-center">';
+                            echo '<a href="crud/banner_user.php?idUser=' . $r['idUser'] . '&idRole=' . $r['idRole'] . '" class=" bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 mx-2">Banner Etudient</a>';
+                            echo '<a href="crud/activie_user.php?idUser=' . $r['idUser'] . '&idRole=' . $r['idRole'] . '" class="  bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 mx-2">Active Etudient</a>';
                             echo '</td>';
                             echo "</tr>";
                         }

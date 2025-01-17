@@ -14,6 +14,7 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status ENUM('active', 'suspended') DEFAULT 'active',
+    status_enseignant ENUM('en_attente', 'accepter', 'refuser') DEFAULT 'en_attente',
     idRole INT NOT NULL,
     FOREIGN KEY (idRole) REFERENCES Roles(idRole) ON DELETE CASCADE
 );

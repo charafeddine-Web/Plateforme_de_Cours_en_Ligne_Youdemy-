@@ -2,18 +2,42 @@
 session_start();
 require_once '../autoload.php';
 
-use Classes\Categorie;
+use Classes\Enseignant;
 use Classes\Cours_Video;
 use Classes\Cours_Text;
 use Classes\Cours;
-// if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 2)) {
-//     header("Location: ../index.html");
-//     exit;
-// }
-
-
 //pour statisitiqe 
 $statistiques=  Cours::staticCours();
+
+if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 2)) {
+    header("Location: ../index.php");
+    exit;
+}
+
+$enseignant = new Enseignant($_SESSION['id_user'], null, null, null, null);
+if (!$enseignant->validateStatus()) {
+    echo '
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            Swal.fire({
+                title: "Your account is under review",
+                text: "Please wait for approval before accessing this page.",
+                icon: "info",
+                confirmButtonText: "Go to Homepage",
+                confirmButtonColor: "#4CAF50",
+                showCloseButton: true,
+                allowOutsideClick: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "../index.php"; 
+                }
+            });
+        });
+    </script>';
+    exit;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

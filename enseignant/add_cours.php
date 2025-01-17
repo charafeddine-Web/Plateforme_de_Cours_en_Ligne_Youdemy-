@@ -4,13 +4,10 @@ session_start();
 use Classes\Cours_Text;
 use Classes\Cours_Video;
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitcours'])) {
-    // Check if user is logged in
     if (!isset($_SESSION['id_user'])) {
         echo "Error: User not logged in.";
         exit;
     }
-
-    // Collect form inputs
     $title = htmlspecialchars($_POST['titre']);
     $description = htmlspecialchars($_POST['description']);
     $type = htmlspecialchars($_POST['type']);
@@ -18,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitcours'])) {
     $enseignant_id = $_SESSION['id_user'];
     $content = '';
 
-    // Debugging inputs
     echo "Title: $title<br>";
     echo "Description: $description<br>";
     echo "Type: $type<br>";
@@ -66,8 +62,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submitcours'])) {
         $course = new Cours_Text($title, $description, $content, $category_id, $enseignant_id, $type);
         
     }
-
-    // Add course
     if ($course->addCours()) {
         header("location: cours.php");
         exit;

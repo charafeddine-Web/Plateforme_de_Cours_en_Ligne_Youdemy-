@@ -3,10 +3,11 @@ require_once '../autoload.php';
 use Classes\Categorie;
 session_start();
 
-// if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
-//     header("Location: ../index.html");
-//     exit;
-// }
+if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
+    header("Location: ../index.php");
+    exit;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addCategory'])) {
     $categoryName = $_POST['categoryName'];
     $categoryDescription = $_POST['categoryDescription'];
@@ -109,10 +110,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['addCategory'])) {
     </li>
 </ul>
         <ul class="side-menu w-full mt-12">
-            <li class="h-12 bg-transparent ml-2.5 rounded-l-full p-1">
-                <a href="../Visiteur/logout.php" class="logout">
+            <li class="h-12 bg-transparent ml-2.2 md:ml-2 rounded-l-full p-1">
+            <form action="../logout.php" method="POST">
+                <button type="submit" name="submit" class="logout flex">
                     <i class='bx bx-log-out-circle'></i> Logout
-                </a>
+                </button>
+            </form>
             </li>
         </ul>
     </div>

@@ -3,7 +3,7 @@ namespace Classes;
 use Classes\DatabaseConnection;
 use PDO;
 
-class User{
+ class User{
     protected $idUser;
     protected $nom;
     protected $prenom;
@@ -28,7 +28,6 @@ public static function login($email, $password) {
         if (!$pdo) {
             return "Erreur de connexion à la base de données.";
         }
-
         $query = "SELECT idUser, idRole, nom, prenom,status, password FROM users WHERE email = :email";
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':email', $email, PDO::PARAM_STR);
@@ -36,11 +35,6 @@ public static function login($email, $password) {
 
         if ($stmt->rowCount() === 1) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            // Debug logs
-            error_log("Stored hashed password: " . $user['password']);
-            error_log("Password entered: " . $password);
-            
             if (password_verify($password, $user['password'])) {
                 return $user; 
             } else {
@@ -57,16 +51,18 @@ public static function login($email, $password) {
     }
 }
 
+
+
     
-
-
 public static function logout() {
-    session_start();
-    if (isset($_SESSION['id_user'])) {  
-        session_unset();  
-        session_destroy();  
-        header("Location: ./index.php");  
-        exit();
+    // Start the session if not already started
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    session_unset();
+    session_destroy();
+    if (isset($_COOKIE[session_name()])) {
+        setcookie(session_name(), '', time() - 3600, '/');
     }
 }
 

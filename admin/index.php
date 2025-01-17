@@ -10,10 +10,9 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
     exit;
 }
 
-
 try {
        $admin = new Admin(1, "charaf eddine", "tbibzat", "charafeddinetbibzat@gmail.com", 1,'active');
-    $result = $admin->ViewStatistic();
+       $result = $admin->ViewStatistic();
     
 } catch (\Exception $e) {
     echo "Error: " . $e->getMessage();
@@ -80,11 +79,14 @@ try {
     </li>
 </ul>
 
-        <ul class="side-menu w-full mt-12">
-            <li class="h-12 bg-transparent ml-2.5 rounded-l-full p-1">
-                <a href="../Visiteur/logout.php" class="logout">
+        
+<ul class="side-menu w-full mt-12">
+            <li class="h-12 bg-transparent ml-2.2 md:ml-2 rounded-l-full p-1">
+            <form action="../logout.php" method="POST">
+                <button type="submit" name="submit" class="logout flex">
                     <i class='bx bx-log-out-circle'></i> Logout
-                </a>
+                </button>
+            </form>
             </li>
         </ul>
     </div>
