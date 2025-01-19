@@ -1,26 +1,20 @@
 <?php
 require_once '../autoload.php';
-use Classes\Categorie;
-use Classes\Cours;
+use Classes\Inscription;
+session_start();
 
 
-
-
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 8; 
-$courses = Cours::ShowCours($page, $limit);
-$total_courses = Cours::getTotalCourses();
-$total_pages = ceil($total_courses / $limit);
-
-$categories = Categorie::showCategories();
-
-// Group courses by category
-$coursesByCategory = [];
-if ($courses && count($courses) > 0) {
-    foreach ($courses as $course) {
-        $coursesByCategory[$course['categorie_id']][] = $course;
-    }
+if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 2)) {
+  header("Location: ../index.php");
+  exit;
 }
+if (isset($_SESSION['id_user'])){
+    $etudient=$_SESSION['id_user'];
+};
+$insecription = new Inscription();
+$mecours=$insecription->getAllInscriptionsEtudient($etudient);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

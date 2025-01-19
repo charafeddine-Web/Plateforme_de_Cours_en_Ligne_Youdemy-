@@ -14,6 +14,9 @@ $totalPages = ceil($totalCourses / $limit);
 
 // Fetch categories
 $categories = Categorie::showCategories();
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,6 +56,123 @@ $categories = Categorie::showCategories();
     <link rel="stylesheet" href="../assets/css/zilom.css" />
     <link rel="stylesheet" href="../assets/css/zilom-responsive.css" />
     <style>
+        /* General Search Popup Styling */
+.search-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.search-popup__content {
+    background: #fff;
+    border-radius: 8px;
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.search-form {
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+}
+
+.search-button {
+    background: #007bff;
+    color: #fff;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.search-button:hover {
+    background: #0056b3;
+}
+
+/* Search Results Grid */
+.search-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.search-results .course-card {
+    background: #f9f9f9;
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-results .course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.course-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.course-card-content {
+    padding: 15px;
+}
+
+.course-card-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.course-card-title a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.course-card-title a:hover {
+    color: #007bff;
+}
+
+.course-card-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.course-card-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #28a745;
+}
+
         .pagination {
     display: flex;
     justify-content: center;
@@ -233,7 +353,6 @@ $categories = Categorie::showCategories();
     <!--Page Header End-->
 
 
-
     <!--Courses One Start-->
     <section class="courses-one courses-one--courses">
         <div class="container">
@@ -245,13 +364,11 @@ $categories = Categorie::showCategories();
 
 
 <div class="row">
-    <!--Start case-studies-one Top-->
     <div class="courses-one--courses__top">
         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
             <div class="courses-one--courses__menu-box">
                 <ul class="project-filter clearfix post-filter has-dynamic-filters-counter list-unstyled">
                     <li data-filter=".filter-item" class="active"><span class="filter-text">All</span></li>
-
                     <?php
                     if ($categories && count($categories) > 0) {
                         foreach ($categories as $category) {
@@ -265,7 +382,6 @@ $categories = Categorie::showCategories();
             </div>
         </div>
     </div>
-    <!--End case-studies-one Top-->
 </div>
 
 <div class="row filter-layout masonary-layout">
@@ -311,7 +427,6 @@ $categories = Categorie::showCategories();
     ?>
 </div>
 
-<!-- Pagination Controls -->
 <div class="pagination">
     <?php if ($currentPage > 1): ?>
         <a href="?page=<?= $currentPage - 1 ?>" class="prev">Previous</a>
@@ -479,24 +594,26 @@ $categories = Categorie::showCategories();
     </div>
     <!-- /.mobile-nav__wrapper -->
 
-
-
     <div class="search-popup">
-        <div class="search-popup__overlay search-toggler"></div>
-        <!-- /.search-popup__overlay -->
-        <div class="search-popup__content">
-            <form action="#">
-                <label for="search" class="sr-only">search here</label><!-- /.sr-only -->
-                <input type="text" id="search" placeholder="Search Here..." />
-                <button type="submit" aria-label="search submit" class="thm-btn2">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-            </form>
-        </div>
-        <!-- /.search-popup__content -->
-    </div>
-    <!-- /.search-popup -->
+    <div class="search-popup__overlay search-toggler"></div>
+    <div class="search-popup__content">
+        <form id="search-form">
+            <label for="search" class="sr-only">Search here</label>
+            <input type="text" id="search" name="search" placeholder="Search Here..." class="search-input" />
+            <button type="submit" aria-label="search submit" class="thm-btn2">
+                <i class="fa fa-search" aria-hidden="true"></i>
+            </button>
+        </form>
 
+        <div id="search-results" class="search-results pt-2">
+            <p class="placeholder-text">Search for courses to see results...</p>
+        </div>
+    </div>
+</div>
+
+
+
+    <!-- /.search-popup -->
 
 
     <a href="#" data-target="html" class="scroll-to-target scroll-to-top"><i class="fa fa-angle-up"></i></a>
@@ -528,6 +645,54 @@ $categories = Categorie::showCategories();
     <!-- template js -->
     <script src="../assets/js/zilom.js"></script>
 
+    <script>
+    document.getElementById("search-form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    const searchQuery = document.getElementById("search").value; 
+    const resultsContainer = document.getElementById("search-results");
+
+    resultsContainer.innerHTML = '<p class="col-12 text-center">Searching...</p>';
+
+    fetch("search_handler.php?search=" + encodeURIComponent(searchQuery))
+        .then(response => response.json()) 
+        .then(data => {
+            resultsContainer.innerHTML = "";
+
+            if (data.length > 0) {
+                data.forEach(course => {
+                    const courseCard = `
+                        <div class="col-xl-3 col-lg-6 col-md-2 bg-white filter-item ${course.type}">
+                            <div class="courses-one__single bg-white">
+                                <div class="courses-one__single-img">
+                                    <img src="${course.type === 'text' ? '../assets/images/backgrounds/text.webp' : '../assets/images/backgrounds/video.webp'}" alt="Course Image" />
+                                    <div class="overlay-text">
+                                        <p>${course.type}</p>
+                                    </div>
+                                </div>
+                                <div class="courses-one__single-content">
+                                    <h6 class="courses-one__single-content-name">${course.fullname}</h6>
+                                    <h4 class="courses-one__single-content-title">
+                                        <a href="course-details.php?id=${course.idCours}">${course.titre}</a>
+                                    </h4>
+                                    <p class="courses-one__single-content-description">${course.description}</p>
+                                    <div class="courses-one__single-content-price">$${course.price}.00</div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    resultsContainer.innerHTML += courseCard;
+                });
+            } else {
+                resultsContainer.innerHTML = `<p class="col-12 text-center">No results found for "${searchQuery}"</p>`;
+            }
+        })
+        .catch(error => {
+            resultsContainer.innerHTML = `<p class="col-12 text-center text-danger">Error fetching results. Please try again later.</p>`;
+            console.error("Error:", error);
+        });
+});
+
+</script>
 
 </body>
 

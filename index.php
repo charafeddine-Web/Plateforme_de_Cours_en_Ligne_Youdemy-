@@ -492,7 +492,7 @@ $categories = Categorie::showCategories();
                         </div>
                         <h6 class="courses-one__single-content-name"><?= htmlspecialchars($course['fullname']) ?></h6>
                         <h4 class="courses-one__single-content-title">
-                            <a href="course-details.php?id=<?= htmlspecialchars($course['idCours']) ?>">
+                        <a href="course-details.php?id=<?= htmlspecialchars($course['idCours']) ?>">
                                 <?= htmlspecialchars($course['titre']) ?>
                             </a>
                         </h4>

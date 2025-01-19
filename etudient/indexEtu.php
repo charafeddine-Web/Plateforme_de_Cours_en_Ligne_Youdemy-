@@ -2,6 +2,7 @@
 require_once '../autoload.php';
 use Classes\Categorie;
 use Classes\Cours;
+session_start();
 
 
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
@@ -204,9 +205,58 @@ if ($courses && count($courses) > 0) {
                                                 <?= htmlspecialchars($courseItem['description']) ?></p>
                                             <div class="courses-one__single-content-price">$<?= htmlspecialchars(rand(50, 5000)) ?>.00
                                             </div>
-                                            <button class="bg-indigo-600 text-white px-4 py-2 rounded mt-2 hover:bg-indigo-700">
-                                                S'inscrire
-                                            </button>
+                                            <!-- Form for enrolling -->
+<form action="inscription.php" method="POST" onsubmit="return handleFormSubmit(event)">
+    <input type="hidden" name="etudiant_id" value="<?= $_SESSION['id_user']; ?>">
+    <input type="hidden" name="cours_id" value="<?= htmlspecialchars($courseItem['idCours']) ?>">
+    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded mt-2 hover:bg-indigo-700" id="enroll-btn">
+        Enroll
+    </button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function handleFormSubmit(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: data.message,
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.error || 'Something went wrong!',
+                });
+            }
+        })
+        .catch(error => {
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'A network error occurred.',
+            });
+            console.error('Error:', error);
+        });
+
+        return false; 
+    }
+</script>
+
+                                           
+
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +272,9 @@ if ($courses && count($courses) > 0) {
                     echo '<p>No categories available.</p>';
                 }
                 ?>
+ 
             </section>
+
     </section>
     <div class="flex justify-center space-x-2 mt-4 flex-wrap">
     <a href="?page=<?php echo max(1, $page - 1); ?>&search=<?php echo urlencode($searchQuery); ?>" 
@@ -278,19 +330,7 @@ if ($courses && count($courses) > 0) {
                     });
                 });
             </script>
-             <script>
-        const hamburger = document.getElementById('hamburger');
-        const sidebar = document.getElementById('sidebar');
-        const closeSidebar = document.getElementById('close-sidebar');
-
-        hamburger.addEventListener('click', () => {
-            sidebar.classList.toggle('hidden');
-        });
-
-        closeSidebar.addEventListener('click', () => {
-            sidebar.classList.add('hidden');
-        });
-    </script>
+            
 </body>
 
 </html>

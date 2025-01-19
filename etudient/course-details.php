@@ -143,23 +143,24 @@ $categoryName = htmlspecialchars($course['categorie_nom']);
 
         <div class="course-content grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 px-4 md:px-8">
     <!-- Course Image or Video -->
-    <div class="course-image-container md:col-span-1 ">
-        <?php if ($course['type'] == 'video'): ?>
-            <div class="relative h-64 rounded-lg overflow-hidden shadow-lg">
-                <video class="w-full h-full object-cover" controls autoplay>
-                    <source src="../enseignant/uploads/videos/<?= htmlspecialchars($course['contenu']) ?>" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        <?php else: ?>
-            <div class="relative h-64 bg-gray-100 flex items-center justify-center p-4 rounded-lg shadow-lg my-20">
-                <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg text-center">
-                    <h4 class="text-xl font-semibold text-indigo-600 mb-4">Course Content</h4>
-                    <p class="text-lg text-gray-700 h-80 overflow-y-auto"><?= htmlspecialchars($course['contenu']); ?></p>
+            <?php
+        $isEnrolled = false; 
+        ?>
+
+        <div class="course-image-container md:col-span-1">
+            <?php if (!$isEnrolled): ?>
+                <div class="not-enrolled-message bg-yellow-100 text-yellow-800 p-4 rounded-md shadow-md">
+                    <p>
+                        <strong>Note:</strong> You are not enrolled in this course. 
+                        Please <a href="enroll.php" class="text-blue-600 underline">enroll now</a> to access the course materials.
+                    </p>
                 </div>
-            </div>
-        <?php endif; ?>
-    </div>
+            <?php else: ?>
+                <div class="enrolled-message bg-green-100 text-green-800 p-4 rounded-md shadow-md">
+                    <p>Welcome! You are successfully enrolled in this course.</p>
+                </div>
+            <?php endif; ?>
+        </div>
 
     <div class="course-details md:col-span-2 space-y-6">
         <h3 class="text-3xl font-semibold text-indigo-600 hover:text-indigo-800 transition duration-300 ease-in-out"><?= htmlspecialchars($course['titre']) ?></h3>
