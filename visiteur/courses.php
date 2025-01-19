@@ -1,6 +1,22 @@
+<?php
+require_once '../autoload.php';
+use Classes\Categorie;
+use Classes\Cours;
+
+$cours=Cours::ShowCours();
+
+$currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$limit = 8; 
+$courses = Cours::ShowCours($currentPage, $limit);
+$totalCourses = Cours::getTotalCourses();
+$totalPages = ceil($totalCourses / $limit); 
+
+
+// Fetch categories
+$categories = Categorie::showCategories();
+?>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -36,6 +52,32 @@
     <!-- template styles -->
     <link rel="stylesheet" href="../assets/css/zilom.css" />
     <link rel="stylesheet" href="../assets/css/zilom-responsive.css" />
+    <style>
+        .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    padding: 10px 15px;
+    margin: 0 5px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    color: #333;
+}
+
+.pagination a.active {
+    background-color: indigo;
+    color: white;
+}
+
+.pagination a:hover {
+    background-color: #ddd;
+}
+
+    </style>
 </head>
 
 <body>
@@ -200,104 +242,91 @@
                 <h2 class="section-title__title">Explore Courses</h2>
             </div>
 
-            <div class="row">
-                <!--Start case-studies-one Top-->
-                <div class="courses-one--courses__top">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="courses-one--courses__menu-box">
-                            <ul class="project-filter clearfix post-filter has-dynamic-filters-counter list-unstyled">
-                                <li data-filter=".filter-item" class="active"><span class="filter-text">All</span></li>
-                                <li data-filter=".featured"><span class="filter-text">Featured</span></li>
-                                <li data-filter=".business"><span class="filter-text">Business</span></li>
-                                <li data-filter=".photography"><span class="filter-text">Photography</span></li>
-                                <li data-filter=".development"><span class="filter-text">Development</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <!--End case-studies-one Top-->
+
+
+<div class="row">
+    <!--Start case-studies-one Top-->
+    <div class="courses-one--courses__top">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+            <div class="courses-one--courses__menu-box">
+                <ul class="project-filter clearfix post-filter has-dynamic-filters-counter list-unstyled">
+                    <li data-filter=".filter-item" class="active"><span class="filter-text">All</span></li>
+
+                    <?php
+                    if ($categories && count($categories) > 0) {
+                        foreach ($categories as $category) {
+                            echo '<li data-filter=".'. htmlspecialchars($category['nom']) .'"><span class="filter-text">'. htmlspecialchars($category['nom']) .'</span></li>';
+                        }
+                    } else {
+                        echo "<li>No categories available.</li>";
+                    }
+                    ?>
+                </ul>
             </div>
+        </div>
+    </div>
+    <!--End case-studies-one Top-->
+</div>
 
-
-            <div class="row filter-layout masonary-layout">
-                <!--Start Single Courses One-->
-                <div class="col-xl-3 col-lg-6 col-md-6 filter-item development business">
-                    <div class="courses-one__single wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1000ms">
-                        <div class="courses-one__single-img">
-                            <img src="../assets/images/resources/courses-v1-img1.jpg" alt=""/>
-                            <div class="overlay-text">
-                                <p>Featured</p>
-                            </div>
-                        </div>
-                        <div class="courses-one__single-content">
-                            <div class="courses-one__single-content-overlay-img">
-                                <img src="../assets/images/resources/courses-v1-overlay-img1.png" alt=""/>
-                            </div>
-                            <h6 class="courses-one__single-content-name">Kevin Martin</h6>
-                            <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a React Developer</a></h4>
-                            <div class="courses-one__single-content-review-box">
-                                <ul class="list-unstyled">
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                </ul>
-                                <div class="rateing-box">
-                                    <span>(4)</span>
-                                </div>
-                            </div>
-                            <p class="courses-one__single-content-price">$30.00</p>
-                            <ul class="courses-one__single-content-courses-info list-unstyled">
-                                <li>2 Lessons</li>
-                                <li>10 Hours</li>
-                                <li>Beginner</li>
-                            </ul>
+<div class="row filter-layout masonary-layout">
+    <?php
+    if ($courses && count($courses) > 0) {
+        foreach ($courses as $courseItem) {
+            $imageSrc = ($courseItem['type'] === 'text') 
+                ? '../assets/images/backgrounds/text.webp' 
+                : '../assets/images/backgrounds/video.webp';
+            ?>
+            <div class="col-xl-3 col-lg-6 col-md-6 filter-item <?= htmlspecialchars($courseItem['type']) ?>">
+                <div class="courses-one__single wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1000ms">
+                    <div class="courses-one__single-img">
+                        <img src="<?= htmlspecialchars($imageSrc) ?>" alt="Course Image"/>
+                        <div class="overlay-text">
+                            <p><?= htmlspecialchars($courseItem['type']) ?></p>
                         </div>
                     </div>
-                </div>
-                <!--End Single Courses One-->
+                    <div class="courses-one__single-content">
+                        <h6 class="courses-one__single-content-name"><?= htmlspecialchars($courseItem['fullname']) ?></h6>
+                        <h4 class="courses-one__single-content-title">
+                            <a href="course-details.php?id=<?= htmlspecialchars($courseItem['idCours']) ?>">
+                                <?= htmlspecialchars($courseItem['titre']) ?>
+                            </a>
+                        </h4>
+                        <p class="courses-one__single-content-description"><?= htmlspecialchars($courseItem['description']) ?></p>
+                        <div class="courses-one__single-content-price">$<?= htmlspecialchars(rand(50, 5000)) ?>.00</div>
 
-                <!--Start Single Courses One-->
-                <div class="col-xl-3 col-lg-6 col-md-6 filter-item development business featured">
-                    <div class="courses-one__single wow fadeInLeft" data-wow-delay="100ms" data-wow-duration="1000ms">
-                        <div class="courses-one__single-img">
-                            <img src="../assets/images/resources/courses-v1-img2.jpg" alt=""/>
-                            <div class="overlay-text">
-                                <p>free</p>
+                        <?php if (!empty($courseItem['tags'])): ?>
+                            <div class="course-tags">
+                                <strong>Tags: </strong>
+                                <?= htmlspecialchars($courseItem['tags']) ?>
                             </div>
-                        </div>
-                        <div class="courses-one__single-content">
-                            <div class="courses-one__single-content-overlay-img">
-                                <img src="../assets/images/resources/courses-v1-overlay-img2.png" alt=""/>
-                            </div>
-                            <h6 class="courses-one__single-content-name">Christine Eve</h6>
-                            <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a React Developer</a></h4>
-                            <div class="courses-one__single-content-review-box">
-                                <ul class="list-unstyled">
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                    <li><i class="fa fa-star"></i></li>
-                                </ul>
-                                <div class="rateing-box">
-                                    <span>(4)</span>
-                                </div>
-                            </div>
-                            <p class="courses-one__single-content-price">$30.00</p>
-                            <ul class="courses-one__single-content-courses-info list-unstyled">
-                                <li>2 Lessons</li>
-                                <li>10 Hours</li>
-                                <li>Beginner</li>
-                            </ul>
-                        </div>
+                        <?php endif; ?>
                     </div>
                 </div>
-                <!--End Single Courses One-->
-
-                
             </div>
+            <?php
+        }
+    } else {
+        echo "<p>No courses available.</p>";
+    }
+    ?>
+</div>
+
+<!-- Pagination Controls -->
+<div class="pagination">
+    <?php if ($currentPage > 1): ?>
+        <a href="?page=<?= $currentPage - 1 ?>" class="prev">Previous</a>
+    <?php endif; ?>
+    
+    <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+        <a href="?page=<?= $i ?>" class="<?= ($i == $currentPage) ? 'active' : '' ?>"><?= $i ?></a>
+    <?php endfor; ?>
+    
+    <?php if ($currentPage < $totalPages): ?>
+        <a href="?page=<?= $currentPage + 1 ?>" class="next">Next</a>
+    <?php endif; ?>
+</div>
+
+
         </div>
     </section>
     <!--Courses One End-->

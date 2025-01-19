@@ -5,6 +5,7 @@ use Classes\Categorie;
 use Classes\Cours_Video;
 use Classes\Cours_Text;
 use Classes\Enseignant;
+use Classes\Tag;
 session_start();
 
 
@@ -40,6 +41,9 @@ if (!$enseignant->validateStatus()) {
 //pour show category 
 $category=new Categorie(null,null,null,null);
 $categories=$category->showCategories();
+
+$tag=new Tag(null,null);
+$tags=$tag->GetTags();
 
 
 ?>
@@ -215,6 +219,17 @@ $categories=$category->showCategories();
             ?>
         </select>
       </div>
+      <div class="mb-4">
+    <label for="tags" class="block text-gray-700 font-bold">Tags</label>
+    <select name="tags[]" id="tags" class="p-2 rounded bg-slate-100" multiple>
+        <?php
+        foreach ($tags as $tag) {
+            echo "<option value='{$tag['idTag']}'>{$tag['nom']}</option>";
+        }
+        ?>
+    </select>
+</div>
+
       <div class="flex justify-end">
         <button type="button" id="closeModal" class="mr-2 p-2 bg-gray-500 rounded-xl text-white">Cancel</button>
         <button type="submit" name="submitcours" class="p-2 bg-indigo-500 rounded-xl text-white">Submit</button>
@@ -242,9 +257,8 @@ $categories=$category->showCategories();
         <tbody>
           <?php 
             try {
-              $cours = new Cours_Video(null, null, null, null, null, null);
+              $cours = new Cours_Video(null, null, null, $_SESSION['id_user'], null, null,null);
               $result = $cours->getAllCours();
-
               if ($result) {
                 foreach ($result as $ct) {
                   echo "<tr class='hover:bg-gray-100'>";
@@ -293,7 +307,7 @@ $categories=$category->showCategories();
         <tbody>
           <?php 
             try {
-              $cours = new Cours_Text(null, null, null, null, null, null, null);
+              $cours = new Cours_Text(null, null, null, null, $_SESSION['id_user'], null,null);
               $result = $cours->getAllCours();
 
               if ($result) {

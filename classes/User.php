@@ -55,7 +55,6 @@ public static function login($email, $password) {
 
     
 public static function logout() {
-    // Start the session if not already started
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }

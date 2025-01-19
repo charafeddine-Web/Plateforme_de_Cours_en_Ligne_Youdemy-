@@ -1,3 +1,17 @@
+<?php
+require_once './autoload.php';
+use Classes\Cours;
+use Classes\Categorie;
+
+$cours = Cours::ShowCours();
+$topCourses = array_slice($cours, 0, 8);
+
+//pour les actegory
+$categories = Categorie::showCategories(); 
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -454,420 +468,72 @@
             <div class="container">
                 <div class="section-title text-center">
                     <span class="section-title__tagline">Checkout New List</span>
-                    <h2 class="section-title__title">Explore Courses</h2>
+                    <h2 class="section-title__title">Explore Top Courses</h2>
                 </div>
-                <div class="row">
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img1.jpg" alt="" />
-                                <div class="overlay-text">
-                                    <p>Featured</p>
-                                </div>
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img1.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Kevin Martin</h6>
-                                <h4 class="courses-one__single-content-title"><a href="./visiteur/course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
+                <div class="row filter-layout masonary-layout">
+    <?php
+    if ($topCourses && count($topCourses) >0 ) {
+        foreach ($topCourses as $course) {
+            $imageSrc = ($course['type'] === 'text') 
+                ? 'assets/images/backgrounds/text.webp' 
+                : 'assets/images/backgrounds/video.webp';
+            ?>
+            <div class="col-xl-3 col-lg-6 col-md-6 filter-item <?= htmlspecialchars($course['type']) ?>">
+                <div class="courses-one__single wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1000ms">
+                    <div class="courses-one__single-img">
+                        <img src="<?= htmlspecialchars($imageSrc) ?>" alt="Course Image"/>
+                        <div class="overlay-text">
+                            <p><?= htmlspecialchars($course['type']) ?></p>
                         </div>
                     </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInLeft" data-wow-delay="100ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img2.jpg" alt="" />
-                                <div class="overlay-text">
-                                    <p>free</p>
-                                </div>
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img2.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Christine Eve</h6>
-                                <h4 class="courses-one__single-content-title"><a href="./visiteur/course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
+                    <div class="courses-one__single-content">
+                        <div class="courses-one__single-content-overlay-img">
+                            <img src="../assets/images/resources/courses-v1-overlay-img-placeholder.png" alt=""/>
+                        </div>
+                        <h6 class="courses-one__single-content-name"><?= htmlspecialchars($course['fullname']) ?></h6>
+                        <h4 class="courses-one__single-content-title">
+                            <a href="course-details.php?id=<?= htmlspecialchars($course['idCours']) ?>">
+                                <?= htmlspecialchars($course['titre']) ?>
+                            </a>
+                        </h4>
+                        <p class="courses-one__single-content-description">
+                            <?= htmlspecialchars($course['description']) ?>
+                        </p>
+                        <div class="courses-one__single-content-review-box">
+                            <ul class="list-unstyled">
+                                <?php for ($i = 0; $i < 5; $i++): ?>
+                                    <li>
+                                        <i class="fa fa-star<?= $i < 4.5 ? '' : '-half' ?>"></i>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                            <div class="rateing-box">
+                                <span>(4.5)</span>
                             </div>
                         </div>
+                        <p class="courses-one__single-content-price">
+                            $<?= htmlspecialchars(rand(50, 5000)) ?>.00
+                        </p>
+                        <ul class="courses-one__single-content-courses-info list-unstyled">
+                            <li><?= htmlspecialchars($course['category']) ?></li>
+                            <li><?= htmlspecialchars(date('F d, Y', strtotime($course['date_creation']))) ?></li>
+                        </ul>
                     </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInRight" data-wow-delay="0ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img3.jpg" alt="" />
-                                <div class="overlay-text">
-                                    <p>Featured</p>
-                                </div>
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img3.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">David Cooper</h6>
-                                <h4 class="courses-one__single-content-title"><a href="./visiteur/course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInRight" data-wow-delay="100ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img4.jpg" alt="" />
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img4.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Sarah Albert</h6>
-                                <h4 class="courses-one__single-content-title"><a href="./visiteur/course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img5.jpg" alt="" />
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img5.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Sarah Albert</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInLeft" data-wow-delay="100ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img6.jpg" alt="" />
-                                <div class="overlay-text">
-                                    <p>Featured</p>
-                                </div>
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img6.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Kevin Martin</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInRight" data-wow-delay="0ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img7.jpg" alt="" />
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img7.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Christine Eve</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInRight" data-wow-delay="100ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img8.jpg" alt="" />
-                                <div class="overlay-text">
-                                    <p>free</p>
-                                </div>
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img8.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">David Cooper</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
                 </div>
+            </div>
+            <?php
+        }
+    } else {
+        echo "<p>No courses available.</p>";
+    }
+    ?>
+</div>
+
             </div>
         </section>
         <!--Courses One End-->
         <!--Categories One Start-->
-        <section class="categories-one">
-            <div class="container">
-                <div class="section-title text-center">
-                    <span class="section-title__tagline">Checkout New List</span>
-                    <h2 class="section-title__title">Top Categories</h2>
-                </div>
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="categories-one__wrapper">
-                            <div class="row">
-                                <!--Start Single Categories One-->
-                                <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0ms"
-                                    data-wow-duration="1500ms">
-                                    <div class="categories-one__single">
-                                        <div class="categories-one__single-img">
-                                            <img src="assets/images/resources/categories-v1-img1.jpg" alt="" />
-                                            <div class="categories-one__single-overlay">
-                                                <div class="categories-one__single-overlay-text1">
-                                                    <p>30 full courses</p>
-                                                </div>
-                                                <div class="categories-one__single-overlay-text2">
-                                                    <h4>Art & Design</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Single Categories One-->
-
-                                <!--Start Single Categories One-->
-                                <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="200ms"
-                                    data-wow-duration="1500ms">
-                                    <div class="categories-one__single">
-                                        <div class="categories-one__single-img">
-                                            <img src="assets/images/resources/categories-v1-img2.jpg" alt="" />
-                                            <div class="categories-one__single-overlay">
-                                                <div class="categories-one__single-overlay-text1">
-                                                    <p>30 full courses</p>
-                                                </div>
-                                                <div class="categories-one__single-overlay-text2">
-                                                    <h4>Art & Design</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Single Categories One-->
-
-                                <!--Start Single Categories One-->
-                                <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="400ms"
-                                    data-wow-duration="1500ms">
-                                    <div class="categories-one__single">
-                                        <div class="categories-one__single-img">
-                                            <img src="assets/images/resources/categories-v1-img3.jpg" alt="" />
-                                            <div class="categories-one__single-overlay">
-                                                <div class="categories-one__single-overlay-text1">
-                                                    <p>30 full courses</p>
-                                                </div>
-                                                <div class="categories-one__single-overlay-text2">
-                                                    <h4>Art & Design</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Single Categories One-->
-
-                                <!--Start Single Categories One-->
-                                <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="600ms"
-                                    data-wow-duration="1500ms">
-                                    <div class="categories-one__single">
-                                        <div class="categories-one__single-img">
-                                            <img src="assets/images/resources/categories-v1-img4.jpg" alt="" />
-                                            <div class="categories-one__single-overlay">
-                                                <div class="categories-one__single-overlay-text1">
-                                                    <p>30 full courses</p>
-                                                </div>
-                                                <div class="categories-one__single-overlay-text2">
-                                                    <h4>Art & Design</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Single Categories One-->
-                            </div>
-                        </div>
-                        <div class="categories-one__btn text-center">
-                            <a href="#" class="thm-btn">view all courses</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--Categories One End-->
-
-
-
+        
         <!--Testimonials One Start-->
         <section class="testimonials-one clearfix">
             <div class="auto-container">

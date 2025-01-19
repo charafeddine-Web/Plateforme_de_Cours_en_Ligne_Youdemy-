@@ -1,6 +1,20 @@
+<?php
+require_once '../autoload.php';
+use Classes\Cours;
+
+$courseId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+
+if ($courseId <= 0) {
+    echo "Invalid course ID.";
+    exit;
+}
+
+$course = Cours::getCoursById($courseId);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -161,7 +175,7 @@
 
 
     <!--Page Header Start-->
-    <section class="page-header clearfix" style="background-image: url(../assets/images/backgrounds/page-header-bg.jpg);">
+    <section class="page-header clearfix" style="background-image: url(../assets/images/backgrounds/about1.jpg);">
         <div class="container">
             <div class="row">
                 <div class="col-xl-12">
@@ -187,10 +201,8 @@
     <section class="course-details">
         <div class="container">
             <div class="row">
-                <!--Start Course Details Content-->
                 <div class="col-xl-8 col-lg-8">
                     <div class="course-details__content">
-                        <!--Start Single Courses One-->
                         <div class="courses-one__single style2 wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1000ms">
                             <div class="courses-one__single-img">
                                 <img src="../assets/images/resources/course-details-img1.jpg" alt=""/>

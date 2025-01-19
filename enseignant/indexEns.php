@@ -88,10 +88,12 @@ if (!$enseignant->validateStatus()) {
       </ul>
       <div class="mt-8">
         <p class="text-sm uppercase text-gray-400 mb-4">Auth Pages</p>
-        <a href="#" class="flex items-center gap-4 text-white py-2 px-4 rounded-lg hover:bg-gray-700">
+        <form action="../logout.php" method="POST">
+        <button type="submit" name="submit"  class="flex items-center gap-4 text-white py-2 px-4 rounded-lg hover:bg-gray-700">
           <i class="fas fa-sign-out-alt text-sm"></i>
           <span>Log Out</span>
-        </a>
+      </button>
+        </form>
       </div>
     </nav>
   </aside>
