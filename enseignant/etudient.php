@@ -19,26 +19,40 @@ if(isset($_SESSION['id_user'])){
 
 $enseignant = new Enseignant($_SESSION['id_user'], null, null, null, null);
 if (!$enseignant->validateStatus()) {
-    echo '
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            Swal.fire({
-                title: "Your account is under review",
-                text: "Please wait for approval before accessing this page.",
-                icon: "info",
-                confirmButtonText: "Go to Homepage",
-                confirmButtonColor: "#4CAF50",
-                showCloseButton: true,
-                allowOutsideClick: false
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "../index.php"; 
-                }
-            });
-        });
-    </script>';
-    exit;
+  echo '
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          Swal.fire({
+              title: "<span style=\'font-size: 24px; color: #4c6ef5;\'>Account Under Review</span>",
+              html: `
+                  <div style="display: flex; align-items: center; gap: 20px;">
+                      <i class="fas fa-clock" style="font-size: 40px; color: #4c6ef5;"></i>
+                      <p style="font-size: 18px; color: #333333;">Your account is under review. Please wait for approval before accessing this page.</p>
+                  </div>
+              `,
+              icon: "info",
+              background: "#f1f5f9",
+              confirmButtonText: "Go to Homepage",
+              confirmButtonColor: "#4c6ef5",
+              showCloseButton: true,
+              allowOutsideClick: false,
+              customClass: {
+                  popup: "swal-popup-large",
+                  confirmButton: "swal-confirm-btn",
+              },
+              padding: "20px",
+              width: "600px",
+              heightAuto: true,
+          }).then((result) => {
+              if (result.isConfirmed) {
+                  window.location.href = "../index.php"; 
+              }
+          });
+      });
+  </script>
+  ';
+  exit;
 }
 ?>
 <!DOCTYPE html>

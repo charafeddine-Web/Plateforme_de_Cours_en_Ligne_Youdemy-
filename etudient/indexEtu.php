@@ -6,14 +6,14 @@ session_start();
 
 
 if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 3)) {
-  header("Location: ../index.php");
-  exit;
+    header("Location: ../index.php");
+    exit;
 }
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
 
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-$limit = 8; 
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$limit = 8;
 $courses = Cours::SearchCours($searchQuery, $page, $limit);
 $total_courses = Cours::getTotalCoursesserch($searchQuery);
 $total_pages = ceil($total_courses / $limit);
@@ -115,7 +115,7 @@ if ($courses && count($courses) > 0) {
                         <a href="#" class="text-white flex items-center hover:text-gray-200" id="profileToggle">
                             <i class="fas fa-user-circle mr-2"></i>Profile
                         </a>
-                        <div id="profileDropdown" 
+                        <div id="profileDropdown"
                             class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
                             <ul class="py-2">
                                 <li>
@@ -125,32 +125,34 @@ if ($courses && count($courses) > 0) {
                                 </li>
                                 <li>
                                     <form action="../logout.php" method="post">
-                                        <button type="submit" name="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                        Logout
+                                        <button type="submit" name="submit"
+                                            class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                            Logout
                                         </button>
                                     </form>
-                                   
+
                                 </li>
                             </ul>
                         </div>
                     </div>
-                   
+
                 </div>
 
                 <div class="relative">
-                <form action="indexEtu.php" method="GET" class="relative mb-6">
-                    <input type="text" name="search" id="search" value="<?php echo htmlspecialchars($searchQuery); ?>" placeholder="Search courses..." 
-                        class="py-2 md:px-4 rounded-full border border-gray-300 focus:outline-none focus:ring focus:ring-indigo-300 w-full">
-                    <button type="submit" class="absolute right-3 top-3 text-gray-400">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </form>
+                    <form action="indexEtu.php" method="GET" class="relative mb-6">
+                        <input type="text" name="search" id="search"
+                            value="<?php echo htmlspecialchars($searchQuery); ?>" placeholder="Search courses..."
+                            class="py-2 md:px-4 rounded-full border border-gray-300 focus:outline-none focus:ring focus:ring-indigo-300 w-full">
+                        <button type="submit" class="absolute right-3 top-3 text-gray-400">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
 
                 </div>
             </div>
         </div>
     </nav>
-<div id="sidebar" class="lg:hidden fixed inset-0 bg-gray-800 bg-opacity-75 z-20 hidden">
+    <div id="sidebar" class="lg:hidden fixed inset-0 bg-gray-800 bg-opacity-75 z-20 hidden">
         <div class="flex justify-end p-4">
             <button id="close-sidebar" class="text-white text-2xl">
                 <i class="fas fa-times"></i>
@@ -160,186 +162,192 @@ if ($courses && count($courses) > 0) {
             <a href="indexEtu.php" class="text-white py-2">All Courses</a>
             <a href="mecours.php" class="text-white py-2">My Courses</a>
             <div class="relative">
-                        <!-- Profile Link -->
-                        <a href="#" class="text-white flex items-center hover:text-gray-200" id="profileToggle">
-                            <i class="fas fa-user-circle mr-2"></i>Profile
-                        </a>
-                        <div id="profileDropdown" 
-                            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
-                            <ul class="py-2">
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                        My Account
-                                    </a>
-                                </li>
-                                <li>
-                                    <form action="../logout.php" method="post">
-                                        <button type="submit" name="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                        Logout
-                                        </button>
-                                    </form>
-                                   
-                                </li>
-                            </ul>
-                        </div>
-                    </div>        </div>
+                <!-- Profile Link -->
+                <a href="#" class="text-white flex items-center hover:text-gray-200" id="profileToggle">
+                    <i class="fas fa-user-circle mr-2"></i>Profile
+                </a>
+                <div id="profileDropdown"
+                    class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                    <ul class="py-2">
+                        <li>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                My Account
+                            </a>
+                        </li>
+                        <li>
+                            <form action="../logout.php" method="post">
+                                <button type="submit" name="submit"
+                                    class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    Logout
+                                </button>
+                            </form>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="section-title text-center mt-40 w-full">
-                <span class="section-title__tagline">Checkout New List</span>
-                <h2 class="section-title__title">Explore Courses</h2>
-            </div>
-        <div class="container">
-            
-            <div class="row">
-                <div class="courses-one--courses__top">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-                        <div class="courses-one--courses__menu-box">
-                            <ul id="category-filter" class="project-filter clearfix post-filter list-unstyled">
-                                <li data-category="all" class="active"><span class="filter-text">All</span></li>
-                                <?php
-                                if ($categories && count($categories) > 0) {
-                                    foreach ($categories as $category) {
-                                        echo '<li data-category="' . htmlspecialchars($category['idCategory']) . '">
+        <span class="section-title__tagline">Checkout New List</span>
+        <h2 class="section-title__title">Explore Courses</h2>
+    </div>
+    <div class="container">
+
+        <div class="row">
+            <div class="courses-one--courses__top">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                    <div class="courses-one--courses__menu-box">
+                        <ul id="category-filter" class="project-filter clearfix post-filter list-unstyled">
+                            <li data-category="all" class="active"><span class="filter-text">All</span></li>
+                            <?php
+                            if ($categories && count($categories) > 0) {
+                                foreach ($categories as $category) {
+                                    echo '<li data-category="' . htmlspecialchars($category['idCategory']) . '">
                                         <span class="filter-text">' . htmlspecialchars($category['nom']) . '</span>
                                     </li>';
-                                    }
-                                } else {
-                                    echo "<li>No categories available.</li>";
                                 }
-                                ?>
-                            </ul>
-                        </div>
+                            } else {
+                                echo "<li>No categories available.</li>";
+                            }
+                            ?>
+                        </ul>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <section id="courses-list" class="container">
-                <?php
-                if ($categories && count($categories) > 0) {
-                    foreach ($categories as $category) {
-                        echo '<div class="category-section category-' . htmlspecialchars($category['idCategory']) . '">';
-                        echo '<h3 class="text-indigo-600 text-xl font-semibold mt-6 mb-4">' . htmlspecialchars($category['nom']) . '</h3>';
-                        if (isset($coursesByCategory[$category['idCategory']]) && count($coursesByCategory[$category['idCategory']]) > 0) {
-                            echo '<div class="row">';
-                            foreach ($coursesByCategory[$category['idCategory']] as $courseItem) {
-                                $imageSrc = ($courseItem['type'] === 'text')
-                                    ? '../assets/images/backgrounds/text.webp'
-                                    : '../assets/images/backgrounds/video.webp';
-                                ?>
-                                <div class="col-xl-3 col-lg-6 col-md-6">
-                                    <div class="courses-one__single">
-                                        <div class="courses-one__single-img">
-                                            <img src="<?= htmlspecialchars($imageSrc) ?>" alt="Course Image" />
-                                            <div class="overlay-text">
-                                                <p><?= htmlspecialchars($courseItem['type']) ?></p>
-                                            </div>
-                                        </div>
-                                        <div class="courses-one__single-content">
-                                            <h6 class="courses-one__single-content-name">
-                                                <?= htmlspecialchars($courseItem['fullname']) ?></h6>
-                                            <h4 class="courses-one__single-content-title">
-                                                <a href="course-details.php?id=<?= htmlspecialchars($courseItem['idCours']) ?>">
-                                                    <?= htmlspecialchars($courseItem['titre']) ?>
-                                                </a>
-                                            </h4>
-                                            <p class="courses-one__single-content-description">
-                                            <?= htmlspecialchars(substr($course['description'], 0, 20)) ?><?= strlen($course['description']) > 20 ? '...' : '' ?>
-                                            <div class="courses-one__single-content-price">$<?= htmlspecialchars(rand(50, 5000)) ?>.00
-                                            </div>
-                                            <!-- Form for enrolling -->
-<form action="inscription.php" method="POST" onsubmit="return handleFormSubmit(event)">
-    <input type="hidden" name="etudiant_id" value="<?= $_SESSION['id_user']; ?>">
-    <input type="hidden" name="cours_id" value="<?= htmlspecialchars($courseItem['idCours']) ?>">
-    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded mt-2 hover:bg-indigo-700" id="enroll-btn">
-        Enroll
-    </button>
-</form>
-
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function handleFormSubmit(event) {
-        event.preventDefault();
-
-        const form = event.target;
-        const formData = new FormData(form);
-
-        fetch(form.action, {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: data.message,
-                });
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: data.error || 'Something went wrong!',
-                });
-            }
-        })
-        .catch(error => {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'A network error occurred.',
-            });
-            console.error('Error:', error);
-        });
-
-        return false; 
-    }
-</script>
-
-                                           
-
+        <section id="courses-list" class="container">
+            <?php
+            if ($categories && count($categories) > 0) {
+                foreach ($categories as $category) {
+                    echo '<div class="category-section category-' . htmlspecialchars($category['idCategory']) . '">';
+                    echo '<h3 class="text-indigo-600 text-xl font-semibold mt-6 mb-4">' . htmlspecialchars($category['nom']) . '</h3>';
+                    if (isset($coursesByCategory[$category['idCategory']]) && count($coursesByCategory[$category['idCategory']]) > 0) {
+                        echo '<div class="row">';
+                        foreach ($coursesByCategory[$category['idCategory']] as $courseItem) {
+                            $imageSrc = ($courseItem['type'] === 'text')
+                                ? '../assets/images/backgrounds/text.webp'
+                                : '../assets/images/backgrounds/video.webp';
+                            ?>
+                            <div class="col-xl-3 col-lg-6 col-md-6">
+                                <div class="courses-one__single">
+                                    <div class="courses-one__single-img">
+                                        <img src="<?= htmlspecialchars($imageSrc) ?>" alt="Course Image" />
+                                        <div class="overlay-text">
+                                            <p><?= htmlspecialchars($courseItem['type']) ?></p>
                                         </div>
                                     </div>
+                                    <div class="courses-one__single-content">
+                                        <h6 class="courses-one__single-content-name">
+                                            <?= htmlspecialchars($courseItem['fullname']) ?>
+                                        </h6>
+                                        <h4 class="courses-one__single-content-title">
+                                            <a href="course-details.php?id=<?= htmlspecialchars($courseItem['idCours']) ?>">
+                                                <?= htmlspecialchars($courseItem['titre']) ?>
+                                            </a>
+                                        </h4>
+                                        <p class="courses-one__single-content-description">
+                                            <?= htmlspecialchars(substr($course['description'], 0, 20)) ?>                <?= strlen($course['description']) > 20 ? '...' : '' ?>
+                                        <div class="courses-one__single-content-price">$<?= htmlspecialchars(rand(50, 5000)) ?>.00
+                                        </div>
+                                        <!-- Form for enrolling -->
+                                        <form action="inscription.php" method="POST" onsubmit="return handleFormSubmit(event)">
+                                            <input type="hidden" name="etudiant_id" value="<?= $_SESSION['id_user']; ?>">
+                                            <input type="hidden" name="cours_id"
+                                                value="<?= htmlspecialchars($courseItem['idCours']) ?>">
+                                            <button type="submit"
+                                                class="bg-indigo-600 text-white px-4 py-2 rounded mt-2 hover:bg-indigo-700"
+                                                id="enroll-btn">
+                                                Enroll
+                                            </button>
+                                        </form>
+
+                                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                                        <script>
+                                            function handleFormSubmit(event) {
+                                                event.preventDefault();
+
+                                                const form = event.target;
+                                                const formData = new FormData(form);
+
+                                                fetch(form.action, {
+                                                    method: 'POST',
+                                                    body: formData
+                                                })
+                                                    .then(response => response.json())
+                                                    .then(data => {
+                                                        if (data.success) {
+                                                            Swal.fire({
+                                                                icon: 'success',
+                                                                title: 'Success',
+                                                                text: data.message,
+                                                            });
+                                                        } else {
+                                                            Swal.fire({
+                                                                icon: 'error',
+                                                                title: 'Error',
+                                                                text: data.error || 'Something went wrong!',
+                                                            });
+                                                        }
+                                                    })
+                                                    .catch(error => {
+                                                        Swal.fire({
+                                                            icon: 'error',
+                                                            title: 'Error',
+                                                            text: 'A network error occurred.',
+                                                        });
+                                                        console.error('Error:', error);
+                                                    });
+
+                                                return false;
+                                            }
+                                        </script>
+
+
+
+                                    </div>
                                 </div>
-                                <?php
-                            }
-                            echo '</div>';
-                        } else {
-                            echo '<p class="text-gray-500">No courses available in this category.</p>';
+                            </div>
+                            <?php
                         }
                         echo '</div>';
+                    } else {
+                        echo '<p class="text-gray-500">No courses available in this category.</p>';
                     }
-                } else {
-                    echo '<p>No categories available.</p>';
+                    echo '</div>';
                 }
-                ?>
- 
-            </section>
+            } else {
+                echo '<p>No categories available.</p>';
+            }
+            ?>
 
-    </section>
-    <div class="flex justify-center space-x-2 mt-4 flex-wrap">
-    <a href="?page=<?php echo max(1, $page - 1); ?>&search=<?php echo urlencode($searchQuery); ?>" 
-       class="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300">
-       Previous
-    </a>
+        </section>
 
-    <?php
-    for ($page_number = 1; $page_number <= $total_pages; $page_number++) {
-        echo '<a href="?page=' . $page_number . '&search=' . urlencode($searchQuery) . '" 
-                  class="px-4 py-2 ' . 
-                  ($page_number == $page ? 'bg-indigo-600 text-white' : 'text-indigo-600') . 
-                  ' border border-indigo-600 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300">
-                  ' . $page_number . 
-              '</a>';
-    }
-    ?>
+        </section>
+        <div class="flex justify-center space-x-2 mt-4 flex-wrap">
+            <a href="?page=<?php echo max(1, $page - 1); ?>&search=<?php echo urlencode($searchQuery); ?>"
+                class="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300">
+                Previous
+            </a>
 
-    <a href="?page=<?php echo min($total_pages, $page + 1); ?>&search=<?php echo urlencode($searchQuery); ?>" 
-       class="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300">
-       Next
-    </a>
-</div>
+            <?php
+            for ($page_number = 1; $page_number <= $total_pages; $page_number++) {
+                echo '<a href="?page=' . $page_number . '&search=' . urlencode($searchQuery) . '" 
+                  class="px-4 py-2 ' .
+                    ($page_number == $page ? 'bg-indigo-600 text-white' : 'text-indigo-600') .
+                    ' border border-indigo-600 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300">
+                  ' . $page_number .
+                    '</a>';
+            }
+            ?>
+
+            <a href="?page=<?php echo min($total_pages, $page + 1); ?>&search=<?php echo urlencode($searchQuery); ?>"
+                class="px-4 py-2 text-indigo-600 border border-indigo-600 rounded-full hover:bg-indigo-600 hover:text-white transition duration-300">
+                Next
+            </a>
+        </div>
 
 
 
@@ -351,42 +359,42 @@ if ($courses && count($courses) > 0) {
             &copy; 2025 Zilom . All rights reserved, by Tbibzat Charaf Eddine.
         </div>
     </footer>
-    
+
     <script>
-                document.addEventListener("DOMContentLoaded", () => {
-                    const filterItems = document.querySelectorAll("#category-filter li");
-                    const coursesSections = document.querySelectorAll(".category-section");
-                    filterItems.forEach(item => {
-                        item.addEventListener("click", () => {
-                            const category = item.getAttribute("data-category");
-                            filterItems.forEach(filter => filter.classList.remove("active"));
-                            item.classList.add("active");
-                            coursesSections.forEach(section => {
-                                if (category === "all" || section.classList.contains(`category-${category}`)) {
-                                    section.style.display = "block";
-                                } else {
-                                    section.style.display = "none";
-                                }
-                            });
-                        });
+        document.addEventListener("DOMContentLoaded", () => {
+            const filterItems = document.querySelectorAll("#category-filter li");
+            const coursesSections = document.querySelectorAll(".category-section");
+            filterItems.forEach(item => {
+                item.addEventListener("click", () => {
+                    const category = item.getAttribute("data-category");
+                    filterItems.forEach(filter => filter.classList.remove("active"));
+                    item.classList.add("active");
+                    coursesSections.forEach(section => {
+                        if (category === "all" || section.classList.contains(`category-${category}`)) {
+                            section.style.display = "block";
+                        } else {
+                            section.style.display = "none";
+                        }
                     });
                 });
+            });
+        });
 
-//pour profile
-document.getElementById('profileToggle').addEventListener('click', function (event) {
-        event.preventDefault(); 
-        const dropdown = document.getElementById('profileDropdown');
-        dropdown.classList.toggle('hidden');
-    });
-    document.addEventListener('click', function (event) {
-        const dropdown = document.getElementById('profileDropdown');
-        const profileToggle = document.getElementById('profileToggle');
-        if (!profileToggle.contains(event.target) && !dropdown.contains(event.target)) {
-            dropdown.classList.add('hidden');
-        }
-    });
+        //pour profile
+        document.getElementById('profileToggle').addEventListener('click', function (event) {
+            event.preventDefault();
+            const dropdown = document.getElementById('profileDropdown');
+            dropdown.classList.toggle('hidden');
+        });
+        document.addEventListener('click', function (event) {
+            const dropdown = document.getElementById('profileDropdown');
+            const profileToggle = document.getElementById('profileToggle');
+            if (!profileToggle.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
     </script>
-            
+
 </body>
 
 </html>

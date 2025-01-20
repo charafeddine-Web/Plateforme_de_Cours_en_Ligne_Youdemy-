@@ -47,7 +47,7 @@ class Etudiant extends User
         }
     }
 
-    public function statistiqueEtudiants(): void {
+    public function statistiqueEtudiants() {
         try {
             $con = DatabaseConnection::getInstance()->getConnection();
     
@@ -73,16 +73,17 @@ class Etudiant extends User
                     $studentsWithoutCourses++;
                 }
             }
-    
-            $static = [
+            return [
                 'total_client_res' => $studentsWithCourses,
                 'total_client_nres' => $studentsWithoutCourses
             ];
     
         } catch (\PDOException $e) {
             echo "Error retrieving statistics: " . $e->getMessage();
+            return null;
         }
     }
+    
     
     public static function showAllEtudiant()
     {

@@ -62,31 +62,30 @@ class Cours_Text extends Cours
     }
     
     
-
-    public function getAllCourss()
-    {
-        try {
-            $pdo = DatabaseConnection::getInstance()->getConnection();
-            $sql = "SELECT count(*) as res_cours_text FROM cours WHERE type = 'text' and enseignant_id= :enseignant_id";
-            $stmt = $pdo->prepare($sql);
-            $stmt->bindValue(":enseignant_id",$this->enseignant_id);
-            $stmt = $pdo->prepare($sql);
+    // public function getAllCourss()
+    // {
+    //     try {
+    //         $pdo = DatabaseConnection::getInstance()->getConnection();
+    //         $sql = "SELECT count(*) as res_cours_text FROM cours WHERE type = 'text' and enseignant_id= :enseignant_id";
+    //         $stmt = $pdo->prepare($sql);
+    //         $stmt->bindValue(":enseignant_id",$this->enseignant_id);
+    //         $stmt = $pdo->prepare($sql);
     
-            $stmt->execute();
-            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+    //         $stmt->execute();
+    //         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
             
-            if ($result) {
-                return $result;
-            } else {
-                return [
-                    'res_cours_text' => 0
-                ];
-            }
-        } catch (\PDOException $e) {
-            echo "Error fetching cours: " . $e->getMessage();
-            return false;
-        }
-    }
+    //         if ($result) {
+    //             return $result;
+    //         } else {
+    //             return [
+    //                 'res_cours_text' => 0
+    //             ];
+    //         }
+    //     } catch (\PDOException $e) {
+    //         echo "Error fetching cours: " . $e->getMessage();
+    //         return false;
+    //     }
+    // }
     public function getAllCours()
     {
         try {

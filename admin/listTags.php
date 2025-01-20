@@ -71,10 +71,8 @@ $result = Tag::showstatic();
 
 <body class="">
     <div class=" fixed top-0 left-0  w-[230px] h-[100%] z-50 overflow-hidden sidebar ">
-        <a href="" class="logo text-xl font-bold h-[56px] flex items-center text-[#1976D2] z-30 pb-[20px] box-content">
-            <i class=" mt-4 text-xxl max-w-[60px] flex justify-center "><i class="fa-solid fa-car-side"></i></i>
-            <div class="logoname ml-2"><span>Drive
-                </span>Loc</div>
+    <a href="./index.php" class="logo text-xl font-bold h-[56px] flex items-center text-[#1976D2] z-30 pb-[20px] pl-8 box-content">
+        <img src="../assets/images/resources/logo-1.png" alt="" />
         </a>
         <ul class="side-menu w-full mt-12">
     <li class=" h-12 bg-transparent ml-2.5 rounded-l-full p-1">
@@ -146,8 +144,8 @@ $result = Tag::showstatic();
             </a>
             <a href="#" class="profile">
                 <img class="w-[36px] h-[36px] object-cover rounded-full" width="36" height="36"
-                    src=".././assets/image/charaf.png.jfif">
-            </a>
+                src="../assets/charaf.png.jfif">
+                </a>
         </nav>
 
         <main class=" mainn w-full p-[36px_24px] max-h-[calc(100vh_-_56px)]">

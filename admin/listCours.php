@@ -2,8 +2,7 @@
 require_once '../autoload.php';
 use Classes\Categorie;
 use Classes\Cours;
-use Classes\Cours_Text;
-use Classes\Cours_video;
+use Classes\Admin;
 session_start();
 
 if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
@@ -11,15 +10,8 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
     exit;
 }
 
-
- $result =  Cours::ViewStatisticcours();
-
- $res_cours_text=new Cours_Text(null,null,null,null,null,null,null);
- $rstext=$res_cours_text->getAllCours();
-
- $res_cours_video=new Cours_video(null,null,null,null,null,null,null);
- $rsvideo=$res_cours_video->getAllCours();
-
+$resultd =  Admin::ViewStatistic();
+$result =  Cours::ViewStatisticcours();
 
 ?>
 <!DOCTYPE html>
@@ -39,10 +31,8 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
 
 <body class="">
     <div class=" fixed top-0 left-0  w-[230px] h-[100%] z-50 overflow-hidden sidebar ">
-        <a href="" class="logo text-xl font-bold h-[56px] flex items-center text-[#1976D2] z-30 pb-[20px] box-content">
-            <i class=" mt-4 text-xxl max-w-[60px] flex justify-center "><i class="fa-solid fa-car-side"></i></i>
-            <div class="logoname ml-2"><span>You
-                </span>Demy</div>
+    <a href="./index.php" class="logo text-xl font-bold h-[56px] flex items-center text-[#1976D2] z-30 pb-[20px] pl-8 box-content">
+        <img src="../assets/images/resources/logo-1.png" alt="" />
         </a>
         <ul class="side-menu w-full mt-12">
     <li class=" h-12 bg-transparent ml-2.5 rounded-l-full p-1">
@@ -115,8 +105,8 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
             </a>
             <a href="#" class="profile">
                 <img class="w-[36px] h-[36px] object-cover rounded-full" width="36" height="36"
-                    src=".././assets/image/charaf.png.jfif">
-            </a>
+                src="../assets/charaf.png.jfif">
+                </a>
         </nav>
 
         <main class=" mainn w-full p-[36px_24px] max-h-[calc(100vh_-_56px)]">
@@ -144,27 +134,13 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
             </div>
             <!-- insights-->
             <ul class="insights grid grid-cols-[repeat(auto-fit,_minmax(240px,_1fr))] gap-[24px] mt-[36px]">
-    <li>
-        <i class="fa-solid fa-chalkboard-teacher"></i>
-        <span class="info">
-            <h3>
-                <?php
-                    if ($result && isset($result['total_cours'])) {
-                        echo $result['total_cours'];
-                    } else {
-                        echo "No data available.";
-                    }
-                ?>
-            </h3>
-            <p>All Courses</p>
-        </span>
-    </li>
+   
     <li><i class="fa-solid fa-file-alt"></i>
         <span class="info">
             <h3>
                 <?php
-                if ($rstext && isset($rstext['res_cours_text'])) {
-                    echo $rstext['res_cours_text'];
+                if ($result && isset($result['res_cours_text'])) {
+                    echo $result['res_cours_text'];
                 } else {
                     echo "No data available.";
                 }
@@ -177,8 +153,8 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
         <span class="info">
             <h3>
                 <?php
-                if ($rsvideo && isset($rsvideo['res_cours_video'])) {
-                    echo $rsvideo['res_cours_video'];
+                if ($result && isset($result['res_cours_video'])) {
+                    echo $result['res_cours_video'];
                 } else {
                     echo "No data available.";
                 }
@@ -187,6 +163,22 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
             <p>Video Courses</p>
         </span>
     </li>
+    <li class="flex flex-col items-center gap-3">
+        <div class="enrolled-message bg-green-100 text-green-800 p-4 rounded-md shadow-md w-full">
+            <p>Cours par Catégorie <strong class="font-bold text-black">
+                <?php echo isset($resultd['courses_per_category']) ? $resultd['courses_per_category'] : "No data available."; ?>
+            </strong></p>
+        </div>
+    </li>
+
+    <li class="flex items-center gap-3">
+        <div class="enrolled-message bg-green-100 text-green-800 p-4 rounded-md shadow-md">
+            <p>Cours avec le Plus d'Étudiants <strong class="font-bold text-black">
+                <?php echo isset($resultd['course_with_most_students']) ? $resultd['course_with_most_students'] : "No data available."; ?>
+            </strong></p>
+        </div>
+    </li>
+
 </ul>
 
             <!---- data content ---->
@@ -215,8 +207,7 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
             <tbody>
                 <?php
                 try {
-                    $cours = Cours::ShowCours();
-
+                    $cours = Cours::ShowallCours();
                     if ($cours) {
                         foreach ($cours as $cr) {
                             $availabilityColor = $cr['type'] === 'text' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
@@ -224,16 +215,12 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
                             echo "<tr class='hover:bg-gray-50 transition-all duration-300'>";
                             echo '<td class="border p-4 text-sm text-gray-700">' . htmlspecialchars($cr['idCours']) . '</td>';
                             echo '<td class="border p-4 text-sm text-gray-700">' . htmlspecialchars($cr['titre']) . '</td>';
-                            echo '<td class="border p-4 text-sm text-gray-700">' . htmlspecialchars($cr['description']) . '</td>';
+                            echo '<td class="border p-4 text-sm text-gray-700">' . htmlspecialchars(substr($cr['description'], 0, 15)) . '...</td>';
                             echo '<td class="border p-4"><span class="' . $availabilityColor . ' px-2 py-1 rounded-full text-center">' . $availabilityText . '</span></td>';
                             echo '<td class="border p-4 text-sm text-gray-700">' . htmlspecialchars($cr['category']) . '</td>';
                             echo '<td class="border p-4 text-sm text-gray-700">' . htmlspecialchars($cr['fullname']) . '</td>';
                             echo '<td class="border p-4 text-sm text-gray-700">' . htmlspecialchars($cr['date_creation']) . '</td>';
                             echo '<td class="border p-4 flex space-x-2">';
-                            echo '<a href="edit_vehicle.php?id=' . $cr['idCours'] . '" class="text-blue-600 hover:text-blue-800 font-semibold">Edit</a>';
-                            echo '|';
-                            echo '<a href="delete_vehicle.php?id_vehicle=' . $cr['idCours'] . '" class="text-red-600 hover:text-red-800 font-semibold" onclick="return confirm(\'Are you sure you want to delete this vehicle?\')">Delete</a>';
-                            echo '|';
                             echo '<a href="javascript:void(0);" class="text-green-600 hover:text-green-800 font-semibold" onclick="showVehicleDetails(' . $cr['idCours'] . ')">View</a>';
                             echo '</td>';
                             echo "</tr>";

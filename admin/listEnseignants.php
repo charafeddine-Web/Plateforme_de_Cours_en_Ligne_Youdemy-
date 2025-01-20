@@ -1,6 +1,7 @@
 <?php
 require_once '../autoload.php'; 
 use Classes\Enseignant;
+use Classes\Admin;
 session_start();
 
 if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 1)) {
@@ -9,11 +10,12 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
 }
 
 try {
-   
+    $resultadmin =  Admin::ViewStatistic();
+
+    
     //pour statistic
     $Enseignant = new Enseignant(null,null,null,null,null,null);
     $result = $Enseignant->showAllEnseignant();
-    // $static= $admin->ViewStatistic();
     
     
 } catch (\Exception $e) {
@@ -38,10 +40,8 @@ try {
 
 <body class="">
     <div class=" fixed top-0 left-0  w-[230px] h-[100%] z-50 overflow-hidden sidebar ">
-        <a href="" class="logo text-xl font-bold h-[56px] flex items-center text-[#1976D2] z-30 pb-[20px] box-content">
-            <i class=" mt-4 text-xxl max-w-[60px] flex justify-center "><i class="fa-solid fa-car-side"></i></i>
-            <div class="logoname ml-2"><span>Drive
-                </span>Loc</div>
+    <a href="./index.php" class="logo text-xl font-bold h-[56px] flex items-center text-[#1976D2] z-30 pb-[20px] pl-8 box-content">
+        <img src="../assets/images/resources/logo-1.png" alt="" />
         </a>
         <ul class="side-menu w-full mt-12">
     <li class=" h-12 bg-transparent ml-2.5 rounded-l-full p-1">
@@ -113,8 +113,8 @@ try {
             </a>
             <a href="#" class="profile">
                 <img class="w-[36px] h-[36px] object-cover rounded-full" width="36" height="36"
-                    src=".././assets/image/charaf.png.jfif">
-            </a>
+                src="../assets/charaf.png.jfif">
+                </a>
         </nav>
 
         <main class=" mainn w-full p-[36px_24px] max-h-[calc(100vh_-_56px)]">
@@ -142,45 +142,16 @@ try {
             </div>
             <!-- insights-->
             <ul class="insights grid grid-cols-[repeat(auto-fit,_minmax(240px,_1fr))] gap-[24px] mt-[36px]">
-                <!-- <li>
-                    <i class="fa-solid fa-user-group"></i>
-                    <span class="info">
-                        <h3>
-                            <?php
-                            // echo $result['total_clients'];
-                            ?>
-                        </h3>
-                        <p>All Vehicles </p>
-                    </span>
-                </li> -->
-                <li><i class="fa-solid fa-file-signature"></i>
-                    <span class="info">
-                        <h3>
-                            <?php
-                            if ($result && isset($result['total_vec_Unavailable'])) {
-                                echo $result['total_vec_Unavailable'];
-                            } else {
-                                echo "No data available.";
-                            }
-                            ?>
-                        </h3>
-                        <p>Enseignants Unavailable</p>
-                    </span>
+                
+                   
+                <li class="flex items-center gap-3 bg-gray-200">
+                    <div class="enrolled-message bg-green-100 text-green-800 p-4 rounded-md shadow-md">
+                        <p>Top 3 Enseignants! <strong class="font-bold text-black">
+                            <?php echo isset($resultadmin['top_3_enseignants']) ? $resultadmin['top_3_enseignants'] : "No data available."; ?>
+                        </strong></p>
+                    </div>
                 </li>
-                <li><i class="fa-solid fa-car-side"></i>
-                    <span class="info">
-                        <h3>
-                            <?php
-                            if ($result && isset($result['total_veh_Available'])) {
-                                echo $result['total_veh_Available'];
-                            } else {
-                                echo "No data available.";
-                            }
-                            ?>
-                        </h3>
-                        <p>Enseignants Available</p>
-                    </span>
-                </li>
+                
 
             </ul>
             <!---- data content ---->
@@ -200,8 +171,8 @@ try {
                                 <th class="pb-3 px-3 text-sm text-left border-b border-grey">Full Name</th>
                                 <th class="pb-3 px-3 text-sm text-left border-b border-grey">Email </th>
                                 <th class="pb-3 px-3 text-sm text-left border-b border-grey">Date Inscription</th>
-                                <th class="pb-3 px-3 text-sm text-left border-b border-grey">Status</th>
                                 <th class="pb-3 px-3 text-sm text-left border-b border-grey">is Active</th>
+                                <th class="pb-3 px-3 text-sm text-left border-b border-grey">Status</th>
                                 <th class="pb-3 px-5 text-sm text-left border-b border-grey">Action</th>
                             </tr>
                         </thead>
@@ -223,7 +194,26 @@ try {
                             echo '<span class="px-3 py-1 rounded-full ' . $statusClass . '">'
                             . htmlspecialchars(ucfirst($r['status'])) . '</span>';
                             echo '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['status_enseignant']) . '</td>';
+                            switch ($r['status_enseignant']) {
+                                case 'accepter':
+                                    $status_class = 'bg-green-200 text-green-800';
+                                    break;
+                                case 'en_attente':
+                                    $status_class = 'bg-yellow-200 text-yellow-800';
+                                    break;
+                                case 'refuser':
+                                    $status_class = 'bg-red-200 text-red-800';
+                                    break;
+                                default:
+                                    $status_class = 'bg-gray-200 text-gray-800'; 
+                                    break;
+                            }
+                            echo '<td class="border p-4 text-center text-sm font-medium">';
+                            echo '<span class="px-3 py-1 rounded-full ' . $status_class . '">';
+                            echo htmlspecialchars(ucfirst($r['status_enseignant']));
+                            echo '</span>';
+                            echo '</td>';
+
                             
                             echo '<td class="border p-4 text-center flex justify-center items-center space-x-2">';
                             echo '<a href="crud/refuser_enseig.php?idUser=' . $r['idUser'] . '&idRole=' . $r['idRole'] . '" 
