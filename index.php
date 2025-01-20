@@ -1,3 +1,18 @@
+<?php
+require_once './autoload.php';
+use Classes\Cours;
+use Classes\Categorie;
+session_start();
+
+$cours = Cours::ShowCours();
+$topCourses = array_slice($cours, 0, 8);
+
+//pour les actegory
+$categories = Categorie::showCategories(); 
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -36,6 +51,55 @@
     <!-- template styles -->
     <link rel="stylesheet" href="assets/css/zilom.css" />
     <link rel="stylesheet" href="assets/css/zilom-responsive.css" />
+    <style>
+        
+.logout {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    border: none;
+    outline: none !important;
+    background-color: red;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 10px 20px 10px;
+    border-radius: 8px;
+    transition: all 0.3s linear;
+    overflow: hidden;
+    letter-spacing: 0.1em;
+    z-index: 1;
+}
+.logout:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: var(--thm-black);
+    transition-delay: .1s;
+    transition-timing-function: ease-in-out;
+    transition-duration: .5s;
+    transition-property: all;
+    opacity: 1;
+    transform-origin: top;
+    transform-style: preserve-3d;
+    transform: scaleY(0);
+    z-index: -1;
+}
+
+.logout:hover:after {
+    opacity: 1;
+    transform: scaleY(1.0);
+}
+
+.logout:hover {
+    color: #ffffff;
+}
+    </style>
 </head>
 
 <body>
@@ -87,7 +151,6 @@
                                     </li>
                                 </ul>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -106,27 +169,47 @@
                                         <li class="dropdown current">
                                             <a href="index.php">Home</a>
                                         </li>
-                                        <li><a href="about.php">About</a></li>
+                                        <li><a href="./visiteur/about.php">About</a></li>
                                         <li class="dropdown">
-                                            <a href="courses.php">Courses</a>
+                                            <a href="./visiteur/courses.php">Courses</a>
                                         </li>
                                         <li class="dropdown">
-                                            <a href="teachers-1.php"> Teachers</a>
+                                            <a href="./visiteur/teachers-1.php"> Teachers</a>
                                         </li>
                                         <li class="dropdown">
-                                            <a href="news.php">News</a>
+                                            <a href="./visiteur/news.php">News</a>
                                         </li>
-                                        <li><a href="contact.php">Contact</a></li>
+                                        <li><a href="./visiteur/contact.php">Contact</a></li>
                                     </ul>
                                 </div>
 
                                 <div class="right">
                                     <div class="main-menu__right">
                                         <div class="main-menu__right-login-register">
+                                        <?php 
+                                            if(!isset($_SESSION['id_user'])){
+                                            ?>
                                             <ul class="list-unstyled">
-                                                <li><a href="#">Login</a></li>
-                                                <li><a href="#">Register</a></li>
+                                                <li><a href="./visiteur/login.php">Login</a></li>
+                                                <li><a href="./visiteur/register.php">Register</a></li>
                                             </ul>
+                                            <?php }else { 
+
+                                            ?>
+                                                <div class="b-flex justify-content-end flex ">
+                                               
+                                                <div>
+                                                    <form action="./logout.php" method="POST">
+                                                    <span><?php if(isset ($_SESSION['user']))
+                                                {echo $_SESSION['fullname'];}?></span>
+                                                        <button type="submit" name="submit" class="logout ">Logout</button>
+                                                    </form>
+                                                </div>
+                                                    
+                                            </div>
+                                            <?php }
+                                            ?>
+                                            
                                         </div>
                                         <div class="main-menu__right-cart-search">
                                             <div class="main-menu__right-cart-box">
@@ -204,7 +287,7 @@
                                     <a href="#" class="thm-btn">Discover more</a>
                                 </div>
                                 <div class="main-slider-one__img">
-                                    <img src="assets/images/backgrounds/main-slider-v1-img.png" alt="" />
+                                    <img src="assets/images/backgrounds/main-slider-v2-1.jpg" alt="" />
                                 </div>
                             </div>
                         </div>
@@ -244,7 +327,7 @@
                                     <a href="#" class="thm-btn">Discover more</a>
                                 </div>
                                 <div class="main-slider-one__img">
-                                    <img src="assets/images/backgrounds/main-slider-v1-img.png" alt="" />
+                                    <img src="assets/images/backgrounds/main-slider-v1-img.jpg" alt="" />
                                 </div>
                             </div>
                         </div>
@@ -375,12 +458,12 @@
                             <ul class="about-one__left-img-box list-unstyled clearfix">
                                 <li class="about-one__left-single">
                                     <div class="about-one__left-img1">
-                                        <img src="assets/images/about/about-v1-img1.jpg" alt="" />
+                                        <img src="assets/images/about/about-v1-img2.jpeg" alt="" />
                                     </div>
                                 </li>
                                 <li class="about-one__left-single">
                                     <div class="about-one__left-img2">
-                                        <img src="assets/images/about/about-v1-img2.jpg" alt="" />
+                                        <img src="assets/images/about/about-v2-img2.jpg" alt="" />
                                     </div>
                                 </li>
                             </ul>
@@ -401,7 +484,7 @@
                     <div class="col-xl-6">
                         <div class="about-one__right">
                             <div class="section-title">
-                                <span class="section-title__tagline">About Zilom Company</span>
+                                <span class="section-title__tagline">About YouCode Company</span>
                                 <h2 class="section-title__title">Welcome to the Online <br>Learning Center</h2>
                             </div>
                             <div class="about-one__right-inner">
@@ -438,7 +521,7 @@
                                 </ul>
 
                                 <div class="about-one__btn">
-                                    <a href="about.php" class="thm-btn">view all courses</a>
+                                    <a href="./visiteur/about.php" class="thm-btn">view all courses</a>
                                 </div>
                             </div>
                         </div>
@@ -455,491 +538,72 @@
             <div class="container">
                 <div class="section-title text-center">
                     <span class="section-title__tagline">Checkout New List</span>
-                    <h2 class="section-title__title">Explore Courses</h2>
+                    <h2 class="section-title__title">Explore Top Courses</h2>
                 </div>
-                <div class="row">
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img1.jpg" alt="" />
-                                <div class="overlay-text">
-                                    <p>Featured</p>
-                                </div>
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img1.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Kevin Martin</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
+                <div class="row filter-layout masonary-layout">
+    <?php
+    if ($topCourses && count($topCourses) >0 ) {
+        foreach ($topCourses as $course) {
+            $imageSrc = ($course['type'] === 'text') 
+                ? 'assets/images/backgrounds/text.webp' 
+                : 'assets/images/backgrounds/video.webp';
+            ?>
+            <div class="col-xl-3 col-lg-6 col-md-6 filter-item <?= htmlspecialchars($course['type']) ?>">
+                <div class="courses-one__single wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1000ms">
+                    <div class="courses-one__single-img">
+                        <img src="<?= htmlspecialchars($imageSrc) ?>" alt="Course Image"/>
+                        <div class="overlay-text">
+                            <p><?= htmlspecialchars($course['type']) ?></p>
                         </div>
                     </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInLeft" data-wow-delay="100ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img2.jpg" alt="" />
-                                <div class="overlay-text">
-                                    <p>free</p>
-                                </div>
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img2.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Christine Eve</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
+                    <div class="courses-one__single-content">
+                        <div class="courses-one__single-content-overlay-img">
+                            <img src="../assets/images/resources/courses-v1-overlay-img-placeholder.png" alt=""/>
+                        </div>
+                        <h6 class="courses-one__single-content-name"><?= htmlspecialchars($course['fullname']) ?></h6>
+                        <h4 class="courses-one__single-content-title">
+                        <a href="course-details.php?id=<?= htmlspecialchars($course['idCours']) ?>">
+                                <?= htmlspecialchars($course['titre']) ?>
+                            </a>
+                        </h4>
+                        <p class="courses-one__single-content-description">
+                            <?= htmlspecialchars($course['description']) ?>
+                        </p>
+                        <div class="courses-one__single-content-review-box">
+                            <ul class="list-unstyled">
+                                <?php for ($i = 0; $i < 5; $i++): ?>
+                                    <li>
+                                        <i class="fa fa-star<?= $i < 4.5 ? '' : '-half' ?>"></i>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                            <div class="rateing-box">
+                                <span>(4.5)</span>
                             </div>
                         </div>
+                        <p class="courses-one__single-content-price">
+                            $<?= htmlspecialchars(rand(50, 5000)) ?>.00
+                        </p>
+                        <ul class="courses-one__single-content-courses-info list-unstyled">
+                            <li><?= htmlspecialchars($course['category']) ?></li>
+                            <li><?= htmlspecialchars(date('F d, Y', strtotime($course['date_creation']))) ?></li>
+                        </ul>
                     </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInRight" data-wow-delay="0ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img3.jpg" alt="" />
-                                <div class="overlay-text">
-                                    <p>Featured</p>
-                                </div>
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img3.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">David Cooper</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInRight" data-wow-delay="100ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img4.jpg" alt="" />
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img4.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Sarah Albert</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img5.jpg" alt="" />
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img5.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Sarah Albert</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInLeft" data-wow-delay="100ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img6.jpg" alt="" />
-                                <div class="overlay-text">
-                                    <p>Featured</p>
-                                </div>
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img6.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Kevin Martin</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInRight" data-wow-delay="0ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img7.jpg" alt="" />
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img7.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">Christine Eve</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
-
-                    <!--Start Single Courses One-->
-                    <div class="col-xl-3 col-lg-6 col-md-6">
-                        <div class="courses-one__single wow fadeInRight" data-wow-delay="100ms"
-                            data-wow-duration="1000ms">
-                            <div class="courses-one__single-img">
-                                <img src="assets/images/resources/courses-v1-img8.jpg" alt="" />
-                                <div class="overlay-text">
-                                    <p>free</p>
-                                </div>
-                            </div>
-                            <div class="courses-one__single-content">
-                                <div class="courses-one__single-content-overlay-img">
-                                    <img src="assets/images/resources/courses-v1-overlay-img8.png" alt="" />
-                                </div>
-                                <h6 class="courses-one__single-content-name">David Cooper</h6>
-                                <h4 class="courses-one__single-content-title"><a href="course-details.php">Become a
-                                        React Developer</a></h4>
-                                <div class="courses-one__single-content-review-box">
-                                    <ul class="list-unstyled">
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                        <li><i class="fa fa-star"></i></li>
-                                    </ul>
-                                    <div class="rateing-box">
-                                        <span>(4)</span>
-                                    </div>
-                                </div>
-                                <p class="courses-one__single-content-price">$30.00</p>
-                                <ul class="courses-one__single-content-courses-info list-unstyled">
-                                    <li>2 Lessons</li>
-                                    <li>10 Hours</li>
-                                    <li>Beginner</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Single Courses One-->
                 </div>
+            </div>
+            <?php
+        }
+    } else {
+        echo "<p>No courses available.</p>";
+    }
+    ?>
+</div>
+
             </div>
         </section>
         <!--Courses One End-->
-
-
-
-        <!--Registration One Start-->
-        <section class="registration-one jarallax" data-jarallax data-speed="0.2" data-imgPosition="50% 0%">
-            <div class="registration-one__bg"
-                style="background-image: url(assets/images/resources/registration-one-bg.jpg);"></div>
-            <div class="container">
-                <div class="row">
-                    <!--Start Registration One Left-->
-                    <div class="col-xl-7 col-lg-7">
-                        <div class="registration-one__left">
-                            <div class="section-title">
-                                <span class="section-title__tagline">Get Free Registration</span>
-                                <h2 class="section-title__title">Register your Account<br> Get free Access to <span
-                                        class="odometer" data-count="66000">00</span> <br>Online Courses</h2>
-                            </div>
-                            <p class="registration-one__left-text">There are many variations of passages of lorem ipsum
-                                available but the majority have suffered alteration in some form.</p>
-                            <div class="registration-one__left-transform-box">
-                                <div class="registration-one__left-transform-box-icon">
-                                    <span class="icon-online-course"></span>
-                                </div>
-                                <div class="registration-one__left-transform-box-text">
-                                    <h3><a href="#">Transform Access To Education</a></h3>
-                                    <p>Discover creative projects limited editions of 100 <br>from artists, designers,
-                                        and more.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Registration One Left-->
-
-                    <!--Start Registration One Right-->
-                    <div class="col-xl-5 col-lg-5">
-                        <div class="registration-one__right wow slideInRight" data-wow-delay="100ms"
-                            data-wow-duration="2500ms">
-                            <div class="registration-one__right-form">
-                                <div class="title-box">
-                                    <h4>Fill your Registration</h4>
-                                </div>
-                                <div class="form-box">
-                                    <form method="post" action="index.php">
-                                        <div class="form-group">
-                                            <input type="text" name="username" placeholder="Your Name" required="">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="email" name="email" placeholder="Email Address" required="">
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="phone" placeholder="Phone" required="">
-                                        </div>
-                                        <div class="form-group">
-                                            <textarea placeholder="Comment"></textarea>
-                                        </div>
-                                        <button class="registration-one__right-form-btn" type="submit"
-                                            name="submit-form">
-                                            <span class="thm-btn">apply for it</span>
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--End Registration One Right-->
-                </div>
-            </div>
-        </section>
-        <!--Registration One End-->
-
-
         <!--Categories One Start-->
-        <section class="categories-one">
-            <div class="container">
-                <div class="section-title text-center">
-                    <span class="section-title__tagline">Checkout New List</span>
-                    <h2 class="section-title__title">Top Categories</h2>
-                </div>
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="categories-one__wrapper">
-                            <div class="row">
-                                <!--Start Single Categories One-->
-                                <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="0ms"
-                                    data-wow-duration="1500ms">
-                                    <div class="categories-one__single">
-                                        <div class="categories-one__single-img">
-                                            <img src="assets/images/resources/categories-v1-img1.jpg" alt="" />
-                                            <div class="categories-one__single-overlay">
-                                                <div class="categories-one__single-overlay-text1">
-                                                    <p>30 full courses</p>
-                                                </div>
-                                                <div class="categories-one__single-overlay-text2">
-                                                    <h4>Art & Design</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Single Categories One-->
-
-                                <!--Start Single Categories One-->
-                                <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="200ms"
-                                    data-wow-duration="1500ms">
-                                    <div class="categories-one__single">
-                                        <div class="categories-one__single-img">
-                                            <img src="assets/images/resources/categories-v1-img2.jpg" alt="" />
-                                            <div class="categories-one__single-overlay">
-                                                <div class="categories-one__single-overlay-text1">
-                                                    <p>30 full courses</p>
-                                                </div>
-                                                <div class="categories-one__single-overlay-text2">
-                                                    <h4>Art & Design</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Single Categories One-->
-
-                                <!--Start Single Categories One-->
-                                <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="400ms"
-                                    data-wow-duration="1500ms">
-                                    <div class="categories-one__single">
-                                        <div class="categories-one__single-img">
-                                            <img src="assets/images/resources/categories-v1-img3.jpg" alt="" />
-                                            <div class="categories-one__single-overlay">
-                                                <div class="categories-one__single-overlay-text1">
-                                                    <p>30 full courses</p>
-                                                </div>
-                                                <div class="categories-one__single-overlay-text2">
-                                                    <h4>Art & Design</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Single Categories One-->
-
-                                <!--Start Single Categories One-->
-                                <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="600ms"
-                                    data-wow-duration="1500ms">
-                                    <div class="categories-one__single">
-                                        <div class="categories-one__single-img">
-                                            <img src="assets/images/resources/categories-v1-img4.jpg" alt="" />
-                                            <div class="categories-one__single-overlay">
-                                                <div class="categories-one__single-overlay-text1">
-                                                    <p>30 full courses</p>
-                                                </div>
-                                                <div class="categories-one__single-overlay-text2">
-                                                    <h4>Art & Design</h4>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--End Single Categories One-->
-                            </div>
-                        </div>
-                        <div class="categories-one__btn text-center">
-                            <a href="#" class="thm-btn">view all courses</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!--Categories One End-->
-
-
-
+        
         <!--Testimonials One Start-->
         <section class="testimonials-one clearfix">
             <div class="auto-container">
@@ -1150,34 +814,34 @@
             }}'>
                     <div class="swiper-wrapper">
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo1.png" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo2.jpg" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo3.png" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo4.svg" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo5.jpg" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo6.jpg" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo7.png" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo1.png" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo1.png" alt="">
                         </div><!-- /.swiper-slide -->
                         <div class="swiper-slide">
-                            <img src="assets/images/resources/Company-Logos-v1-logo1.png" alt="">
+                            <img src="assets/images/resources/logo1.png" alt="">
                         </div><!-- /.swiper-slide -->
                     </div>
                 </div>
@@ -1247,7 +911,7 @@
                         <div class="why-choose-one__right wow slideInRight animated clearfix" data-wow-delay="0ms"
                             data-wow-duration="1500ms">
                             <div class="why-choose-one__right-img clearfix">
-                                <img src="assets/images/resources/why-choose-v1-img.jpg" alt="" />
+                                <img src="assets/images/resources/assets/images/resources/why-choose-v1-img.jpg" alt="" />
                                 <div class="why-choose-one__right-img-overlay">
                                     <p>We’re the best institution</p>
                                 </div>
@@ -1285,7 +949,7 @@
                                         <li><a href="#"><span class="icon-chat"></span> Comments</a></li>
                                     </ul>
                                 </div>
-                                <h2 class="blog-one__single-content-title"><a href="news-details.php">Helping Answers
+                                <h2 class="blog-one__single-content-title"><a href="./visiteur/news-details.php">Helping Answers
                                         Stand out in Discussions</a></h2>
                                 <p class="blog-one__single-content-text">Lorem ipsum is simply free text on used by
                                     copytyping refreshing the whole area.</p>
@@ -1308,7 +972,7 @@
                                         <li><a href="#"><span class="icon-chat"></span> Comments</a></li>
                                     </ul>
                                 </div>
-                                <h2 class="blog-one__single-content-title"><a href="news-details.php">Helping Answers
+                                <h2 class="blog-one__single-content-title"><a href="./visiteur/news-details.php">Helping Answers
                                         Stand out in Discussions</a></h2>
                                 <p class="blog-one__single-content-text">Lorem ipsum is simply free text on used by
                                     copytyping refreshing the whole area.</p>
@@ -1331,7 +995,7 @@
                                         <li><a href="#"><span class="icon-chat"></span> Comments</a></li>
                                     </ul>
                                 </div>
-                                <h2 class="blog-one__single-content-title"><a href="news-details.php">Helping Answers
+                                <h2 class="blog-one__single-content-title"><a href="./visiteur/news-details.php">Helping Answers
                                         Stand out in Discussions</a></h2>
                                 <p class="blog-one__single-content-text">Lorem ipsum is simply free text on used by
                                     copytyping refreshing the whole area.</p>
@@ -1390,7 +1054,7 @@
 
         <!--Start Footer One-->
         <footer class="footer-one">
-            <div class="footer-one__bg" style="background-image: url(assets/images/backgrounds/footer-v1-bg.jpg);">
+            <div class="footer-one__bg" style="background-image: url(assets/images/backgrounds/footer.jpg);">
             </div><!-- /.footer-one__bg -->
             <div class="footer-one__top">
                 <div class="container">
@@ -1425,11 +1089,11 @@
                             <div class="footer-widget__column footer-widget__links">
                                 <h3 class="footer-widget__title">Links</h3>
                                 <ul class="footer-widget__links-list list-unstyled">
-                                    <li><a href="about.php">About Us</a></li>
+                                    <li><a href="./visiteur/about.php">About Us</a></li>
                                     <li><a href="#">Overview</a></li>
-                                    <li><a href="teachers-1.php">Teachers</a></li>
+                                    <li><a href="./visiteur/teachers-1.php">Teachers</a></li>
                                     <li><a href="#">Join Us</a></li>
-                                    <li><a href="news.php">Our News</a></li>
+                                    <li><a href="./visiteur/news.php">Our News</a></li>
                                 </ul>
                             </div>
                         </div>
