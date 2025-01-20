@@ -14,6 +14,11 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
   exit;
 }
 
+if(isset($_SESSION['id_user'])){
+  $teacherId=$_SESSION['id_user'];
+  $teacherfullname=$_SESSION['fullname'];
+}
+
 $enseignant = new Enseignant($_SESSION['id_user'], null, null, null, null);
 if (!$enseignant->validateStatus()) {
     echo '
@@ -67,9 +72,8 @@ $tags=$tag->GetTags();
     }
     html, body {
     height: 100%;
-    overflow: hidden; /* Prevent unexpected scrollbars */
+    overflow: hidden; 
 }
-
 </style>
 </head>
 <body>
@@ -77,8 +81,8 @@ $tags=$tag->GetTags();
   <!-- Sidebar -->
   <aside class="bg-gradient-to-br from-gray-800 to-gray-900 fixed inset-y-0 left-0 transform -translate-x-full xl:translate-x-0 transition-transform duration-300 w-64 z-50 p-4 xl:w-72">
     <div class="flex justify-between items-center border-b border-white/20 pb-4">
-      <h6 class="text-white font-semibold text-lg">Youdemy</h6>
-      <button class="xl:hidden text-white focus:outline-none" id="sidebarToggle">
+    <a href="#"><img src="../assets/images/resources/logo-2.png" alt="" /></a>
+    <button class="xl:hidden text-white focus:outline-none" id="sidebarToggle">
         <i class="fas fa-times"></i>
       </button>
     </div>
@@ -102,12 +106,7 @@ $tags=$tag->GetTags();
             <span>Cours</span>
           </a>
         </li>
-        <li>
-          <a href="#" class="flex items-center gap-4 text-white py-2 px-4 rounded-lg hover:bg-gray-700">
-            <i class="fas fa-bell text-sm"></i>
-            <span>Notifications</span>
-          </a>
-        </li>
+        
       </ul>
       <div class="mt-8">
         <p class="text-sm uppercase text-gray-400 mb-4">Auth Pages</p>
@@ -141,8 +140,11 @@ $tags=$tag->GetTags();
      <!-- Main Content -->
 <div class="flex justify-between items-center mx-8  ">
   <div class="p-4">
-    <h1 class="text-2xl font-semibold text-gray-800 mb-4">Welcome to Cours</h1>
-    <p class="text-gray-600">Manage your courses, students, and much more.</p>
+  <div class="enrolled-message bg-green-100 text-green-800 p-4 rounded-md shadow-md">
+                    <p>Welcome!  <strong class="font-bold text-black "><?= $teacherfullname ;?></strong> to Home</p>
+                    <p class="text-gray-600">Manage your courses, students, and much more.</p>
+
+        </div>
   </div>
   <div>
     <button id="addCourseButton" class="p-2 bg-indigo-500 rounded-xl font-bold text-white">Add new Cours</button>
@@ -264,7 +266,7 @@ $tags=$tag->GetTags();
                   echo "<tr class='hover:bg-gray-100'>";
                   echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['idCours']) . '</td>';
                   echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['titre']) . '</td>';
-                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['description']) . '</td>';
+                  echo '<td class="border px-4 py-2">' .  htmlspecialchars(substr($ct['description'], 0, 20)) ?><?= strlen($ct['description']) > 20 ? '...' : '' . '</td>';
                   echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['nom']) . '</td>';
                   echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['date_creation']) . '</td>';
                   echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['type']) . '</td>';
@@ -315,7 +317,7 @@ $tags=$tag->GetTags();
                   echo "<tr class='hover:bg-gray-100'>";
                   echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['idCours']) . '</td>';
                   echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['titre']) . '</td>';
-                  echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['description']) . '</td>';
+                  echo '<td class="border px-4 py-2">' .  htmlspecialchars(substr($ct['description'], 0, 20)) ?><?= strlen($ct['description']) > 20 ? '...' : '' . '</td>';
                   echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['nom']) . '</td>';
                   echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['date_creation']) . '</td>';
                   echo '<td class="border px-4 py-2">' . htmlspecialchars($ct['type']) . '</td>';

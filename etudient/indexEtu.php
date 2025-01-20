@@ -5,6 +5,10 @@ use Classes\Cours;
 session_start();
 
 
+if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 3)) {
+  header("Location: ../index.php");
+  exit;
+}
 $searchQuery = isset($_GET['search']) ? $_GET['search'] : '';
 
 
@@ -92,19 +96,14 @@ if ($courses && count($courses) > 0) {
 </head>
 
 <body class="bg-gray-100 font-sans">
-    <!-- Navigation Bar -->
-    <nav class="bg-indigo-600 shadow-lg fixed w-full top-0 left-0 z-10">
+    <nav class="bg-indigo-600 shadow-lg fixed w-full top-0 left-0 z-50">
         <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center py-4">
-                <!-- Logo -->
-                <a href="index.php"><img src="../assets/images/resources/logo-1.png" alt="" /></a>
+            <div class="flex justify-between items-center py-2">
+                <a href="index.php"><img src="../assets/images/resources/logo-2.png" alt="" /></a>
 
-                <!-- Hamburger Button for Mobile -->
                 <button id="hamburger" class="lg:hidden text-white">
                     <i class="fas fa-bars"></i>
                 </button>
-
-                <!-- Menu Items (Hidden on Mobile) -->
                 <div class="hidden lg:flex space-x-6">
                     <a href="indexEtu.php" class="text-white flex items-center hover:text-gray-200">
                         <i class="fas fa-book mr-2"></i>All Courses
@@ -112,9 +111,30 @@ if ($courses && count($courses) > 0) {
                     <a href="mecours.php" class="text-white flex items-center hover:text-gray-200">
                         <i class="fas fa-folder-open mr-2"></i>My Courses
                     </a>
-                    <a href="#" class="text-white flex items-center hover:text-gray-200">
-                        <i class="fas fa-user-circle mr-2"></i>Profile
-                    </a>
+                    <div class="relative">
+                        <a href="#" class="text-white flex items-center hover:text-gray-200" id="profileToggle">
+                            <i class="fas fa-user-circle mr-2"></i>Profile
+                        </a>
+                        <div id="profileDropdown" 
+                            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                            <ul class="py-2">
+                                <li>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        My Account
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="../logout.php" method="post">
+                                        <button type="submit" name="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        Logout
+                                        </button>
+                                    </form>
+                                   
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                   
                 </div>
 
                 <div class="relative">
@@ -139,8 +159,30 @@ if ($courses && count($courses) > 0) {
         <div class="flex flex-col items-center">
             <a href="indexEtu.php" class="text-white py-2">All Courses</a>
             <a href="mecours.php" class="text-white py-2">My Courses</a>
-            <a href="#" class="text-white py-2">Profile</a>
-        </div>
+            <div class="relative">
+                        <!-- Profile Link -->
+                        <a href="#" class="text-white flex items-center hover:text-gray-200" id="profileToggle">
+                            <i class="fas fa-user-circle mr-2"></i>Profile
+                        </a>
+                        <div id="profileDropdown" 
+                            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                            <ul class="py-2">
+                                <li>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        My Account
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="../logout.php" method="post">
+                                        <button type="submit" name="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        Logout
+                                        </button>
+                                    </form>
+                                   
+                                </li>
+                            </ul>
+                        </div>
+                    </div>        </div>
     </div>
 
     <div class="section-title text-center mt-40 w-full">
@@ -202,7 +244,7 @@ if ($courses && count($courses) > 0) {
                                                 </a>
                                             </h4>
                                             <p class="courses-one__single-content-description">
-                                                <?= htmlspecialchars($courseItem['description']) ?></p>
+                                            <?= htmlspecialchars(substr($course['description'], 0, 20)) ?><?= strlen($course['description']) > 20 ? '...' : '' ?>
                                             <div class="courses-one__single-content-price">$<?= htmlspecialchars(rand(50, 5000)) ?>.00
                                             </div>
                                             <!-- Form for enrolling -->
@@ -329,7 +371,21 @@ if ($courses && count($courses) > 0) {
                         });
                     });
                 });
-            </script>
+
+//pour profile
+document.getElementById('profileToggle').addEventListener('click', function (event) {
+        event.preventDefault(); 
+        const dropdown = document.getElementById('profileDropdown');
+        dropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', function (event) {
+        const dropdown = document.getElementById('profileDropdown');
+        const profileToggle = document.getElementById('profileToggle');
+        if (!profileToggle.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
+    </script>
             
 </body>
 

@@ -248,7 +248,7 @@ try {
     <div class="orders flex-grow flex-[1_0_500px]">
         <div class="header flex items-center gap-[16px] mb-[24px]">
             <i class='bx bx-list-check'></i>
-            <h3 class="mr-auto text-[24px] font-semibold">Statistic</h3>
+            <h3 class="mr-auto text-[24px] font-semibold">Statistic & Inscriptions </h3>
             <i class='bx bx-filter'></i>
             <i class='bx bx-search'></i>
         </div>
@@ -275,13 +275,12 @@ try {
                             echo "<tr class='hover:bg-gray-100 transition-all duration-300'>";
                             echo '<td class="border p-4 text-center text-sm font-medium text-gray-700">' . htmlspecialchars($r['idInscription']) . '</td>';
                             echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['course_title']) . '</td>';
-                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['course_description']) . '</td>';
+                            echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars(substr($r['course_description'], 0, 10)) . '...</td>';
                             echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['teacher_name']) . '' . htmlspecialchars($r['teacher_surname']) . '</td>';
                             echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['student_name']) . '' . htmlspecialchars($r['student_surname']) . '</td>';
                             echo '<td class="border p-4 text-center text-sm text-gray-700">' . htmlspecialchars($r['date_inscription']) . '</td>';
                             echo '<td class="border p-4 text-center">';
-                            echo '<a href="accepter_res.php?idInscription=' . $r['idInscription'] . '" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 mx-2">Accepter</a>';
-                            echo '<a href="refuser_res.php?idInscription=' . $r['idInscription'] . '" class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-all duration-300 mx-2">Refuser</a>';
+                            echo '<a href="accepter_res.php?idInscription=' . $r['idInscription'] . '" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-all duration-300 mx-2">Show</a>';
                             echo '</td>';
                             echo "</tr>";
                         }
@@ -296,8 +295,6 @@ try {
         </table>
     </div>
 </div>
-
-
         </main>
     </div>
 

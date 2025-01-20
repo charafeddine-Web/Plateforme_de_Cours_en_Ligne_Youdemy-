@@ -3,16 +3,23 @@ session_start();
 require_once '../autoload.php';
 
 use Classes\Enseignant;
-use Classes\Cours_Video;
+use Classes\Inscription;
 use Classes\Cours_Text;
 use Classes\Cours;
-//pour statisitiqe 
-$statistiques=  Cours::staticCours();
 
 if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 2)) {
     header("Location: ../index.php");
     exit;
 }
+if(isset($_SESSION['id_user'])){
+  $teacherId=$_SESSION['id_user'];
+  $teacherfullname=$_SESSION['fullname'];
+}
+//pour statisitiqe 
+$statistiques=  Cours::staticCours($teacherId);
+//pour table des inscriptioins
+$inscription= new Inscription();
+$inscriptions = $inscription->getInscriptionsByTeacher($teacherId); 
 
 $enseignant = new Enseignant($_SESSION['id_user'], null, null, null, null);
 if (!$enseignant->validateStatus()) {
@@ -53,7 +60,7 @@ if (!$enseignant->validateStatus()) {
   <!-- Sidebar -->
   <aside class="bg-gradient-to-br from-gray-800 to-gray-900 fixed inset-y-0 left-0 transform -translate-x-full xl:translate-x-0 transition-transform duration-300 w-64 z-50 p-4 xl:w-72">
     <div class="flex justify-between items-center border-b border-white/20 pb-4">
-      <h6 class="text-white font-semibold text-lg">Youdemy</h6>
+    <a href="#"><img src="../assets/images/resources/logo-2.png" alt="" /></a>
       <button class="xl:hidden text-white focus:outline-none" id="sidebarToggle">
         <i class="fas fa-times"></i>
       </button>
@@ -79,12 +86,7 @@ if (!$enseignant->validateStatus()) {
             <span>Cours</span>
           </a>
         </li>
-        <li>
-          <a href="#" class="flex items-center gap-4 text-white py-2 px-4 rounded-lg hover:bg-gray-700">
-            <i class="fas fa-bell text-sm"></i>
-            <span>Notifications</span>
-          </a>
-        </li>
+       
       </ul>
       <div class="mt-8">
         <p class="text-sm uppercase text-gray-400 mb-4">Auth Pages</p>
@@ -114,8 +116,11 @@ if (!$enseignant->validateStatus()) {
     <!-- Content -->
     <div class="flex justify-between items-center mx-8">
         <div class="p-4">
-        <h1 class="text-2xl font-semibold text-gray-800 mb-4">Welcome to Home</h1>
-        <p class="text-gray-600">Manage your courses, students, and much more.</p>
+        <div class="enrolled-message bg-green-100 text-green-800 p-4 rounded-md shadow-md">
+                    <p>Welcome!  <strong class="font-bold text-black "><?= $teacherfullname ;?></strong> to Home</p>
+                    <p class="text-gray-600">Manage your courses, students, and much more.</p>
+
+        </div>
         </div>
         <div>
             <button class="p-2 bg-indigo-900 rounded-xl font-bold text-white">Rapport</button>
@@ -138,7 +143,6 @@ if (!$enseignant->validateStatus()) {
   </div>
   <div class="border-t border-blue-gray-50 p-4">
     <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-      <strong class="text-green-500">+3%</strong>&nbsp;than last month
     </p>
   </div>
 </div>
@@ -156,7 +160,6 @@ if (!$enseignant->validateStatus()) {
   </div>
   <div class="border-t border-blue-gray-50 p-4">
     <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-      <strong class="text-red-500">-2%</strong>&nbsp;than yesterday
     </p>
   </div>
 </div>
@@ -174,12 +177,56 @@ if (!$enseignant->validateStatus()) {
   </div>
   <div class="border-t border-blue-gray-50 p-4">
     <p class="block antialiased font-sans text-base leading-relaxed font-normal text-blue-gray-600">
-      <strong class="text-green-500">+5%</strong>&nbsp;than yesterday
     </p>
   </div>
 </div>
 </div>
-   
+<section>
+    <div class="p-6">
+        <h1 class="text-3xl font-bold text-gray-800 mb-6">Inscriptions</h1>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-lg">
+                <thead class="bg-indigo-600 text-white">
+                    <tr>
+                        <th class="py-3 px-6 text-left">ID</th>
+                        <th class="py-3 px-6 text-left">Course Title</th>
+                        <th class="py-3 px-6 text-left">Course Description</th>
+                        <th class="py-3 px-6 text-left">Student</th>
+                        <th class="py-3 px-6 text-left">Date of Inscription</th>
+                    </tr>
+                </thead>
+                <tbody class="text-gray-700">
+                    <?php
+                    if ($inscriptions):
+                        foreach ($inscriptions as $index => $inscription):
+                    ?>
+                    <tr class="border-b border-gray-200 hover:bg-gray-100">
+                        <td class="py-3 px-6"><?= $index + 1 ?></td>
+                        <td class="py-3 px-6"><?= htmlspecialchars($inscription['course_title']) ?></td>
+                        <td class="py-3 px-6"><?= htmlspecialchars(substr($inscription['course_description'], 0, 20)) ?><?= strlen($inscription['course_description']) > 20 ? '...' : '' ?>
+                        </td>
+                        <td class="py-3 px-6">
+                            <?= htmlspecialchars($inscription['student_name']) ?>
+                            <?= htmlspecialchars($inscription['student_surname']) ?>
+                        </td>
+                        <td class="py-3 px-6">
+                            <?= date("d M Y", strtotime($inscription['date_inscription'])) ?>
+                        </td>
+                    </tr>
+                    <?php
+                        endforeach;
+                    else:
+                    ?>
+                    <tr>
+                        <td colspan="5" class="py-6 text-center text-gray-500">No inscriptions found.</td>
+                    </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
    
   </div>
 </div>

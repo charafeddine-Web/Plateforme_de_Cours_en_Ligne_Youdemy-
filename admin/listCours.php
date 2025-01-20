@@ -15,10 +15,10 @@ if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['i
  $result =  Cours::ViewStatisticcours();
 
  $res_cours_text=new Cours_Text(null,null,null,null,null,null,null);
- $rstext=$res_cours_text->getAllCourss();
+ $rstext=$res_cours_text->getAllCours();
 
  $res_cours_video=new Cours_video(null,null,null,null,null,null,null);
- $rsvideo=$res_cours_video->getAllCourss();
+ $rsvideo=$res_cours_video->getAllCours();
 
 
 ?>

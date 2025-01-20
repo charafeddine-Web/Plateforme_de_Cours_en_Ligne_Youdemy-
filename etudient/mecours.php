@@ -3,11 +3,11 @@ require_once '../autoload.php';
 use Classes\Inscription;
 session_start();
 
-
-if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 2)) {
+if (!isset($_SESSION['id_user']) || (isset($_SESSION['id_role']) && $_SESSION['id_role'] !== 3)) {
   header("Location: ../index.php");
   exit;
 }
+
 if (isset($_SESSION['id_user'])){
     $etudient=$_SESSION['id_user'];
 };
@@ -88,7 +88,7 @@ $mecours=$insecription->getAllInscriptionsEtudient($etudient);
         <div class="container mx-auto px-4">
             <div class="flex justify-between items-center py-4">
                 <!-- Logo -->
-                <a href="#"><img src="../assets/images/resources/logo-1.png" alt="" /></a>
+                <a href="#"><img src="../assets/images/resources/logo-2.png" alt="" /></a>
 
                 <!-- Hamburger Button for Mobile -->
                 <button id="hamburger" class="lg:hidden text-white">
@@ -103,9 +103,30 @@ $mecours=$insecription->getAllInscriptionsEtudient($etudient);
                     <a href="mecours.php" class="text-white flex items-center hover:text-gray-200">
                         <i class="fas fa-folder-open mr-2"></i>My Courses
                     </a>
-                    <a href="#" class="text-white flex items-center hover:text-gray-200">
-                        <i class="fas fa-user-circle mr-2"></i>Profile
-                    </a>
+                    <div class="relative">
+                        <!-- Profile Link -->
+                        <a href="#" class="text-white flex items-center hover:text-gray-200" id="profileToggle">
+                            <i class="fas fa-user-circle mr-2"></i>Profile
+                        </a>
+                        <div id="profileDropdown" 
+                            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                            <ul class="py-2">
+                                <li>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        My Account
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="../logout.php" method="post">
+                                        <button type="submit" name="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        Logout
+                                        </button>
+                                    </form>
+                                   
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="relative">
@@ -125,13 +146,91 @@ $mecours=$insecription->getAllInscriptionsEtudient($etudient);
         <div class="flex flex-col items-center">
             <a href="indexEtu.php" class="text-white py-2">All Courses</a>
             <a href="mecours.php" class="text-white py-2">My Courses</a>
-            <a href="#" class="text-white py-2">Profile</a>
-        </div>
+            <div class="relative">
+                        <!-- Profile Link -->
+                        <a href="#" class="text-white flex items-center hover:text-gray-200" id="profileToggle">
+                            <i class="fas fa-user-circle mr-2"></i>Profile
+                        </a>
+                        <div id="profileDropdown" 
+                            class="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg hidden">
+                            <ul class="py-2">
+                                <li>
+                                    <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        My Account
+                                    </a>
+                                </li>
+                                <li>
+                                    <form action="../logout.php" method="post">
+                                        <button type="submit" name="submit" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                        Logout
+                                        </button>
+                                    </form>
+                                   
+                                </li>
+                            </ul>
+                        </div>
+                    </div>        </div>
     </div>
 
-    <section class="section-title text-center mt-40 w-full">
+    <section class="section-title text-center mt-40  mx-4">
                 <h2 class="section-title__title">Explore Your Courses</h2>
-        
+                <div class="row filter-layout masonary-layout mt-4 ">
+    <?php
+    if (is_array($mecours) && count($mecours) > 0 ) {
+        foreach ($mecours as $course) {
+            $imageSrc = ($course['type'] === 'text') 
+                ? '../assets/images/backgrounds/text.webp' 
+                : '../assets/images/backgrounds/video.webp';
+            ?>
+            <div class="col-xl-3 col-lg-6 col-md-6 filter-item <?= htmlspecialchars($course['type']) ?>">
+                <div class="courses-one__single wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1000ms">
+                    <div class="courses-one__single-img">
+                        <img src="<?= htmlspecialchars($imageSrc) ?>" alt="Course Image"/>
+                        <div class="overlay-text">
+                            <p><?= htmlspecialchars($course['type']) ?></p>
+                        </div>
+                    </div>
+                    <div class="courses-one__single-content">
+                        <div class="courses-one__single-content-overlay-img">
+                            <img src="../assets/images/resources/courses-v1-overlay-img-placeholder.png" alt=""/>
+                        </div>
+                        <h6 class="courses-one__single-content-name"><?= htmlspecialchars($course['fullname']) ?></h6>
+                        <h4 class="courses-one__single-content-title">
+                            <a href="course-details.php?id=<?= htmlspecialchars($course['idCours']) ?>">
+                                <?= htmlspecialchars($course['titre']) ?>
+                            </a>
+                        </h4>
+                        <p class="courses-one__single-content-description">
+                        <?= htmlspecialchars(substr($course['description'], 0, 20)) ?><?= strlen($course['description']) > 20 ? '...' : '' ?>
+                        </p>
+                        <div class="courses-one__single-content-review-box">
+                            <ul class="list-unstyled">
+                                <?php for ($i = 0; $i < 5; $i++): ?>
+                                    <li>
+                                        <i class="fa fa-star<?= $i < 4.5 ? '' : '-half' ?>"></i>
+                                    </li>
+                                <?php endfor; ?>
+                            </ul>
+                            <div class="rateing-box">
+                                <span>(4.5)</span>
+                            </div>
+                        </div>
+                        <p class="courses-one__single-content-price">
+                            $<?= htmlspecialchars(rand(50, 5000)) ?>.00
+                        </p>
+                        <ul class="courses-one__single-content-courses-info list-unstyled">
+                            <li><?= htmlspecialchars(date('F d, Y', strtotime($course['date_creation']))) ?></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <?php
+        }
+    } else {
+        echo "<p>No courses available.</p>";
+    }
+    ?>
+</div>
     </section>
     
 
@@ -156,6 +255,21 @@ $mecours=$insecription->getAllInscriptionsEtudient($etudient);
         closeSidebar.addEventListener('click', () => {
             sidebar.classList.add('hidden');
         });
+
+
+//pour profile
+        document.getElementById('profileToggle').addEventListener('click', function (event) {
+        event.preventDefault(); 
+        const dropdown = document.getElementById('profileDropdown');
+        dropdown.classList.toggle('hidden');
+    });
+    document.addEventListener('click', function (event) {
+        const dropdown = document.getElementById('profileDropdown');
+        const profileToggle = document.getElementById('profileToggle');
+        if (!profileToggle.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.add('hidden');
+        }
+    });
     </script>
 </body>
 

@@ -324,7 +324,6 @@ ul {
 }
 
 
-
 .section-title {
     position: relative;
     display: block;
@@ -3576,6 +3575,7 @@ ul {
 
 
 .registration-one__right-form .form-group input[type="text"],
+.registration-one__right-form .form-group input[type="password"],
 .registration-one__right-form .form-group input[type="email"],
 .registration-one__right-form .form-group input[type="tel"],
 .registration-one__right-form .form-group input[type="url"],
@@ -6558,6 +6558,7 @@ ul {
 
 
 .teaching-one__apply-form .form-group input[type="text"],
+.teaching-one__apply-form .form-group input[type="password"],
 .teaching-one__apply-form .form-group input[type="email"],
 .teaching-one__apply-form .form-group input[type="tel"],
 .teaching-one__apply-form .form-group input[type="url"],

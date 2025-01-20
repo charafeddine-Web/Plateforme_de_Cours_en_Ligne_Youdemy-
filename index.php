@@ -2,6 +2,7 @@
 require_once './autoload.php';
 use Classes\Cours;
 use Classes\Categorie;
+session_start();
 
 $cours = Cours::ShowCours();
 $topCourses = array_slice($cours, 0, 8);
@@ -50,6 +51,55 @@ $categories = Categorie::showCategories();
     <!-- template styles -->
     <link rel="stylesheet" href="assets/css/zilom.css" />
     <link rel="stylesheet" href="assets/css/zilom-responsive.css" />
+    <style>
+        
+.logout {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+    -webkit-appearance: none;
+    border: none;
+    outline: none !important;
+    background-color: red;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 10px 20px 10px;
+    border-radius: 8px;
+    transition: all 0.3s linear;
+    overflow: hidden;
+    letter-spacing: 0.1em;
+    z-index: 1;
+}
+.logout:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: var(--thm-black);
+    transition-delay: .1s;
+    transition-timing-function: ease-in-out;
+    transition-duration: .5s;
+    transition-property: all;
+    opacity: 1;
+    transform-origin: top;
+    transform-style: preserve-3d;
+    transform: scaleY(0);
+    z-index: -1;
+}
+
+.logout:hover:after {
+    opacity: 1;
+    transform: scaleY(1.0);
+}
+
+.logout:hover {
+    color: #ffffff;
+}
+    </style>
 </head>
 
 <body>
@@ -136,10 +186,30 @@ $categories = Categorie::showCategories();
                                 <div class="right">
                                     <div class="main-menu__right">
                                         <div class="main-menu__right-login-register">
+                                        <?php 
+                                            if(!isset($_SESSION['id_user'])){
+                                            ?>
                                             <ul class="list-unstyled">
                                                 <li><a href="./visiteur/login.php">Login</a></li>
                                                 <li><a href="./visiteur/register.php">Register</a></li>
                                             </ul>
+                                            <?php }else { 
+
+                                            ?>
+                                                <div class="b-flex justify-content-end flex ">
+                                               
+                                                <div>
+                                                    <form action="./logout.php" method="POST">
+                                                    <span><?php if(isset ($_SESSION['user']))
+                                                {echo $_SESSION['fullname'];}?></span>
+                                                        <button type="submit" name="submit" class="logout ">Logout</button>
+                                                    </form>
+                                                </div>
+                                                    
+                                            </div>
+                                            <?php }
+                                            ?>
+                                            
                                         </div>
                                         <div class="main-menu__right-cart-search">
                                             <div class="main-menu__right-cart-box">

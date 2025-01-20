@@ -61,7 +61,7 @@ class Cours_Video extends Cours
             return false;
         }
     }
-    
+    // fetcher all cours d'un enseignant
     public function getAllCourss()
     {
         try {
@@ -87,6 +87,7 @@ class Cours_Video extends Cours
             return false;
         }
     }
+
     public function getAllCours()
     {
         try {

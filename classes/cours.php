@@ -198,8 +198,6 @@ public static function getTotalCoursesserch($searchQuery)
 {
     try {
         $pdo = DatabaseConnection::getInstance()->getConnection();
-        
-        // Calculate the starting point for pagination
         $offset = ($page - 1) * $limit;
         
         $sql = "SELECT c.idCours, c.titre, c.description, c.type, c.categorie_id, c.enseignant_id, 
@@ -243,26 +241,33 @@ public static function getTotalCourses()
 }
 
 
-    public static function staticCours(){
-        $pdo = DatabaseConnection::getInstance()->getConnection();
-        $query = "
-            SELECT 
-                (SELECT COUNT(*) FROM cours) AS total_cours,
-                (SELECT COUNT(*) FROM users WHERE idRole = 2) AS total_etudiants,
-                (SELECT COUNT(*) FROM inscriptions WHERE DATE(date_inscription) = CURDATE()) AS nouveaux_etudiants
-        ";
+public static function staticCours($teacherId) {
+    $pdo = DatabaseConnection::getInstance()->getConnection();
+    $query = "
+        SELECT 
+            (SELECT COUNT(*) FROM cours WHERE enseignant_id = :teacherId) AS total_cours,
+            (SELECT COUNT(DISTINCT i.etudiant_id) FROM inscriptions i
+            JOIN cours c ON i.cours_id = c.idCours
+             WHERE c.enseignant_id = :teacherId) AS total_etudiants,
+            (SELECT COUNT(*) FROM inscriptions i
+             JOIN cours c ON i.cours_id = c.idCours
+             WHERE c.enseignant_id = :teacherId 
+             AND DATE(i.date_inscription) = CURDATE()) AS nouveaux_etudiants
+    ";
 
-        $stmt = $pdo->prepare($query);
-        $stmt->execute();
-    
-        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':teacherId', $teacherId, \PDO::PARAM_INT);
+    $stmt->execute();
 
-        return [
-            'total_cours' => $result['total_cours'],
-            'total_etudiants' => $result['total_etudiants'],
-            'nouveaux_etudiants' => $result['nouveaux_etudiants']
-        ];
-    }
+    $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+    return [
+        'total_cours' => $result['total_cours'],
+        'total_etudiants' => $result['total_etudiants'],
+        'nouveaux_etudiants' => $result['nouveaux_etudiants']
+    ];
+}
+
     
     public function getId()
     {
